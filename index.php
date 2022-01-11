@@ -153,27 +153,19 @@
                                 <h4 class="card-title">Location</h4>
                             </div>
                             <div class="card-body px-0" style="height: 250px; overflow: scroll;">
-                                <div class="todo-list">
-                                    <div class="tdl-holder">
-                                        <div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                id="inlineRadio1" value="option1">
-                                            <label class="form-check-label" for="inlineRadio1">1</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                id="inlineRadio2" value="option2">
-                                            <label class="form-check-label" for="inlineRadio2">2</label>
-                                        </div>
 
-                                            <!-- <ul>
-                                                <li><label><input type="radio"><i></i><span style="text-decoration: none; color: black;">Kampus D</span></label></li>
-                                                <li><label><input type="radio"><i></i><span style="text-decoration: none; color: black;">Kampus F8</span></label></li>
-                                            </ul> -->
-                                        </div>
-                                    </div>
+
+                                <form action="<?php $_SERVER['PHP_SELF'];?>" method="get">
+                                <div class="btn-group-vertical col-12">
+
+                                    <button class="btn-secondary btn btn-large text-left" type="submit" name="loc"
+                                        value="kampus_d">Kampus D<hr style="margin:0; padding:0;"></button>
+                                    <button class="btn-secondary btn btn-large text-left" type="submit" name="loc"
+                                        value="kampus_f8">Kampus F8 <hr style="margin:0; padding:0;"></button>
                                 </div>
+                                </form>
+
+
                             </div>
                         </div>
                         </div>

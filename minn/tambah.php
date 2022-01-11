@@ -116,54 +116,45 @@
         <div class="content-body">
             <div class="container-fluid">
 
-                        
-                
-                <!-- row -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Form Tambah data</h4>
+                        <h3><a href="./index.php">&times;</a></h3>
+                    </div>
+                    <div class="card-body text-dark">
+                        <div class="basic-form">
+                            <form>
 
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Tabel Data</h4>
-                                <a href="tambah.php"><button class="btn btn-large btn-info"><h5 class="text-dark m-1">Tambah Data</h5></button></a>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    
-
-                                    
-                                    <table id="example" class="display text-dark" style="min-width: 845px">
-                                        <thead>
-                                            <tr>
-                                                <th>Nama</th>
-                                                <th>Lokasi</th>
-                                                <th>Action</th>
-                                                <th>SnR Score</th>
-                                                <th>Signal Strength</th>
-                                                <th>IQA Score</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>co: nama </td>
-                                                <td>co: lokasi</td>
-                                                <td>
-                                                    <a href="" style="color: blue;">Ubah</a> | 
-                                                    <a href="" style="color: blue;">Hapus</a>
-                                                </td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    
+                                <div class="form-row">
+                                    <div class="form-group col-md-7">
+                                        <label>Nama Tempat</label>
+                                        <input type="text" class="form-control">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label>SnR Score</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Signal Strength Score</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>IQA Score</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <textarea class="form-control"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Tambah</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <!--**********************************
