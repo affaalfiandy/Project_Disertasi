@@ -1,3 +1,25 @@
+<?php
+session_start();
+
+include_once "./dtbase.php";
+
+if (isset($_POST['loc'])){
+    $namatempat= $_POST['loc'];
+    $snrs = $_POST['snrs'];
+    $sss = $_POST['sss'];
+    $iqas = $_POST['iqas'];
+}else {
+    $namatempat= "depok";
+    $snrs = "0";
+    $sss = "0";
+    $iqas = "0";
+}
+
+$sql = "SELECT * FROM dataum";
+$result = mysqli_query($conn, $sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,7 +97,7 @@
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
+                                    <a href="./minn/index.php" class="dropdown-item">
                                         <i class="fas fa-sign-in-alt"></i>
                                         <span class="ml-2">Login</span>
                                     </a>
@@ -98,12 +120,21 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-04"></i><span class="nav-text">Dashboard</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="./index.php">Dashboard</a></li>
-                        </ul>
-                    </li>
+
+                        <li>
+                            <a href="./index.php" class="nav-text"><i class="fas fa-globe"></i> Dashboard</a>
+                        </li>
+
+                        <?php
+                        if (isset($_SESSION["login"])){
+                            echo "<li><a href='./minn/index.php'><i class='icon icon-single-04'></i> Admin</a></li>";
+                        }
+                        ?>
+
+                        <!-- <li>
+                            <a href="javascript:void" class="nav-text"><i class="icon icon-single-04"></i> Dashboard</a>
+                        </li> -->
+
                 </ul>
             </div>
 
@@ -125,7 +156,17 @@
                         <div class="mapouter">
                             <div class="gmap_canvas">
                                 <iframe style="width: 100%; height: 300px;" id="gmap_canvas"
-                                    src="https://maps.google.com/maps?q=universitas%20gunadarma%20kampus%20d&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                    src="https://maps.google.com/maps?q=
+                                        <?php
+                                        $arrk = explode(" ",$namatempat);
+                                        $i = 0;
+                                        while($i < count($arrk)-1){
+                                        echo $arrk[$i] . "%20";
+                                        $i++;
+                                        }
+                                        echo $arrk[count($arrk)-1];
+                                        ?>
+                                        &t=&z=13&ie=UTF8&iwloc=&output=embed"
                                     frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                                 <a href="https://2piratebay.org"></a>
                                 <br>
@@ -148,22 +189,35 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3">
+
+
+
                     <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Location</h4>
                             </div>
                             <div class="card-body px-0" style="height: 250px; overflow: scroll;">
+                                
 
-
-                                <form action="<?php $_SERVER['PHP_SELF'];?>" method="get">
-                                <div class="btn-group-vertical col-12">
-
-                                    <button class="btn-secondary btn btn-large text-left" type="submit" name="loc"
-                                        value="kampus_d">Kampus D<hr style="margin:0; padding:0;"></button>
-                                    <button class="btn-secondary btn btn-large text-left" type="submit" name="loc"
-                                        value="kampus_f8">Kampus F8 <hr style="margin:0; padding:0;"></button>
+                                <?php
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                ?>
+                                <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+                                <input type="text" name="nama_tempat" value="<?= $row["nama_tempat"]?>" hidden>
+                                <input type="text" name="snrs" value="<?= $row["snrs"]?>" hidden>
+                                <input type="text" name="sss" value="<?= $row["sss"]?>" hidden>
+                                <input type="text" name="iqas" value="<?= $row["iqas"]?>" hidden>
+                                <div class="">
+                                <button class="btn-secondary btn btn-large text-left col-11 ml-2 mb-2" type="submit" name="loc"
+                                    value="<?= $row["alamat"]?>"><?= $row["nama_tempat"]?>
+                                </button>
                                 </div>
                                 </form>
+                                <?php
+                                    }
+                                ?>
+                                
+                                
 
 
                             </div>
@@ -178,7 +232,7 @@
                             <div class="stat-widget-two card-body">
                                 <div class="stat-content">
                                     <div class="stat-text">SnR Score</div>
-                                    <div class="stat-digit"> <i class="fas fa-percent"></i>85</div>
+                                    <div class="stat-digit"> <i class="fas fa-percent"></i><?= $snrs?></div>
                                 </div>
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-success w-85" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
@@ -191,7 +245,7 @@
                             <div class="stat-widget-two card-body">
                                 <div class="stat-content">
                                     <div class="stat-text">Signal Strength Score</div>
-                                    <div class="stat-digit"> <i class="fas fa-wifi"></i>780</div>
+                                    <div class="stat-digit"> <i class="fas fa-wifi"></i><?= $sss?></div>
                                 </div>
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-primary w-75" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
@@ -204,7 +258,7 @@
                             <div class="stat-widget-two card-body">
                                 <div class="stat-content">
                                     <div class="stat-text">IQA Score</div>
-                                    <div class="stat-digit"> <i class="fas fa-satellite-dish"></i> 200</div>
+                                    <div class="stat-digit"> <i class="fas fa-satellite-dish"></i><?= $iqas?></div>
                                 </div>
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-warning w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>

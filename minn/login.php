@@ -1,3 +1,39 @@
+<?php
+session_start();
+
+include_once "../dtbase.php";
+
+if (isset($_SESSION["login"])){
+  header("location:./index.php");
+  exit;
+}
+
+if (isset($_POST["login"])){
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $result = mysqli_query($conn, "SELECT * FROM `minnum` WHERE username = '$username'");
+
+    if(mysqli_num_rows($result) === 1 ){
+        $row = mysqli_fetch_assoc($result);
+
+        if(password_verify($password, $row["password"])){
+        $_SESSION["login"] = true;
+        $_SESSION["username"] = $username;
+        header("location:./index.php");
+        exit;
+
+        }else{
+            $error = true;
+        }
+            
+    }else{
+        $error = true;
+    }
+       
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
@@ -22,21 +58,21 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
                                     <h4 class="text-center mb-4">Login</h4>
-                                    <form action="index.html">
+                                    <form action="" method="post">
                                         <div class="form-group">
-                                            <label><strong>Email</strong></label>
-                                            <input type="email" class="form-control" value="hello@example.com">
+                                            <label><strong>Username</strong></label>
+                                            <input type="text" name="username" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <label><strong>Password</strong></label>
-                                            <input type="password" class="form-control" value="Password">
+                                            <input type="password" name="password" class="form-control">
                                         </div>
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary btn-block">Sign me in</button>
+                                            <button type="submit" name="login" class="btn btn-primary btn-block">Login</button>
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Don't have an account? <a class="text-primary" href="../page-register.html">Sign up</a></p>
+                                        <p>Belum punya akun? <a class="text-primary" href="./regist.php">Klik disini</a></p>
                                     </div>
                                 </div>
                             </div>

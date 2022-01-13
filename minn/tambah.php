@@ -1,3 +1,36 @@
+<?php
+session_start();
+if (!isset($_SESSION["login"])){
+  header("location: ./login.php");
+  exit;
+}
+
+include_once "../dtbase.php";
+
+if (isset($_POST['tambah'])){
+
+$nama_tempat = mysqli_real_escape_string($conn, $_POST['nama_tempat']);
+$snrs = mysqli_real_escape_string($conn, $_POST['snrs']);
+$sss = mysqli_real_escape_string($conn, $_POST['sss']);
+$iqas = mysqli_real_escape_string($conn, $_POST['iqas']);
+$alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
+
+$sql = "INSERT INTO `dataum`(`id`, `nama_tempat`, `snrs`, `sss`, `iqas`, `alamat`) 
+        VALUES ('','$nama_tempat','$snrs','$sss','$iqas','$alamat')";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_affected_rows($conn) > 0) {
+    echo "<script>alert('Data Berhasil Ditambahkan'); 
+    location.href='index.php'</script>";
+    exit;
+}else{
+    echo "<script>alert('Data Gagal Ditambahkan');</script>";
+    exit;
+}
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,12 +102,14 @@
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
+                                <h6 class="m-1 mr-4">Selamat datang, <?=$_SESSION["username"]?> </h6>
+                                <p style="font-size: 34px;" class="mt-2"> | </p>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-account"></i>
+                                    <i class="mdi mdi-account ml-2"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
-                                        <i class="fas fa-sign-in-alt"></i>
+                                    <a href="../index.php" class="dropdown-item">
+                                        <i class="fas fa-power-off"></i>
                                         <span class="ml-2">Logout</span>
                                     </a>
                                 </div>
@@ -95,11 +130,11 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-04"></i><span class="nav-text">Admin</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="./index.php">Dashboard</a></li>
-                        </ul>
+                    <li>
+                        <a href="../index.php" class="nav-text"><i class="fas fa-globe"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="./index.php" class="nav-text"><i class="icon icon-single-04"></i> Admin</a>
                     </li>
                 </ul>
             </div>
@@ -123,33 +158,33 @@
                     </div>
                     <div class="card-body text-dark">
                         <div class="basic-form">
-                            <form>
+                            <form action="" method="post">
 
                                 <div class="form-row">
                                     <div class="form-group col-md-7">
                                         <label>Nama Tempat</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="nama_tempat" class="form-control" placeholder="...">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label>SnR Score</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="snrs" class="form-control" placeholder="...">
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Signal Strength Score</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="sss" class="form-control" placeholder="...">
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>IQA Score</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" name="iqas" class="form-control" placeholder="...">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
-                                    <textarea class="form-control"></textarea>
+                                    <textarea name="alamat" class="form-control" placeholder="Text Here..."></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Tambah</button>
+                                <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
                             </form>
                         </div>
                     </div>

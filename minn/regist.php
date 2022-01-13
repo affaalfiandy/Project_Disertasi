@@ -1,3 +1,31 @@
+<?php
+session_start();
+
+include_once "../dtbase.php";
+
+if (isset($_POST["signup"])){
+    if($_POST["password"] != $_POST["password2"]){
+        echo "<script>alert('Konfirmasi password salah'); 
+        location.href='./regist.php'</script>";
+    }else{
+        $username = strtolower(stripslashes($_POST["username"]));
+        $password = $_POST["password"];
+
+        $result = mysqli_query($conn, "SELECT username FROM `minnum` WHERE username = '$username'");
+        if(mysqli_fetch_assoc($result)){
+            echo "<script>alert('Username tidak tersedia'); 
+            location.href='./regist.php'</script>";
+
+        }else{
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        mysqli_query($conn, "INSERT INTO `minnum` VALUES('','$username','$password')");
+        echo "<script>alert('Data Berhasil Ditambahkan'); 
+        location.href='./login.php'</script>";
+        }
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
@@ -5,7 +33,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Focus - Bootstrap Admin Dashboard </title>
+    <title>Registrasi Admin</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
     <link href="../css/style.css" rel="stylesheet">
@@ -21,26 +49,26 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-                                    <h4 class="text-center mb-4">Sign up your account</h4>
-                                    <form action="index.html">
+                                    <h4 class="text-center mb-4">Register</h4>
+                                    <form action="" method="post">
                                         <div class="form-group">
                                             <label><strong>Username</strong></label>
-                                            <input type="text" class="form-control" placeholder="username">
-                                        </div>
-                                        <div class="form-group">
-                                            <label><strong>Email</strong></label>
-                                            <input type="email" class="form-control" placeholder="hello@example.com">
+                                            <input type="text" name="username" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <label><strong>Password</strong></label>
-                                            <input type="password" class="form-control" value="Password">
+                                            <input type="password" name="password" class="form-control">
                                         </div>
-                                        <div class="text-center mt-4">
-                                            <button type="submit" class="btn btn-primary btn-block">Sign me up</button>
+                                        <div class="form-group">
+                                            <label><strong>Konfirmasi Password</strong></label>
+                                            <input type="password" name="password2" class="form-control">
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" name="signup" class="btn btn-primary btn-block">Sign Up</button>
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Already have an account? <a class="text-primary" href="page-login.html">Sign in</a></p>
+                                        <p>Sudah punya akun? <a class="text-primary" href="./login.php">Silahkan Login</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -51,14 +79,15 @@
         </div>
     </div>
 
+
     <!--**********************************
         Scripts
     ***********************************-->
-    
     <!-- Required vendors -->
     <script src="../vendor/global/global.min.js"></script>
     <script src="../js/quixnav-init.js"></script>
-    <!--endRemoveIf(production)-->
+    <script src="../js/custom.min.js"></script>
+
 </body>
 
 </html>

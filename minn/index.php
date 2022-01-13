@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (!isset($_SESSION["login"])){
+  header("location: ./login.php");
+  exit;
+}
+
+include_once "../dtbase.php";
+
+$sql = "SELECT * FROM dataum";
+$result = mysqli_query($conn, $sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,12 +82,14 @@
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
+                                <h6 class="m-1 mr-4">Selamat datang, <?=$_SESSION["username"]?> </h6>
+                                <p style="font-size: 34px;" class="mt-2"> | </p>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-account"></i>
+                                    <i class="mdi mdi-account ml-2"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
-                                        <i class="fas fa-sign-in-alt"></i>
+                                    <a href="./logout.php" class="dropdown-item">
+                                        <i class="fas fa-power-off"></i>
                                         <span class="ml-2">Logout</span>
                                     </a>
                                 </div>
@@ -95,12 +110,15 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
-                                class="icon icon-single-04"></i><span class="nav-text">Admin</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="./index.php">Dashboard</a></li>
-                        </ul>
+                    <li>
+                        <a href="../index.php" class="nav-text"><i class="fas fa-globe"></i> Dashboard</a>
                     </li>
+                    <li>
+                        <a href="" ><i class="icon icon-single-04"></i> Admin</a>
+                    </li>
+                    <!-- <li>
+                        <a href="javascript:void" class="nav-text"><i class="icon icon-single-04"></i> Dashboard</a>
+                    </li> -->
                 </ul>
             </div>
     
@@ -133,7 +151,7 @@
                                     
 
                                     
-                                    <table id="example" class="display text-dark" style="min-width: 845px">
+                                    <table id="example" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>
                                                 <th>Nama</th>
@@ -145,17 +163,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>co: nama </td>
-                                                <td>co: lokasi</td>
-                                                <td>
-                                                    <a href="" style="color: blue;">Ubah</a> | 
-                                                    <a href="" style="color: blue;">Hapus</a>
+
+                                            <?php
+                                                while($row = mysqli_fetch_assoc($result)) {
+                                            ?>
+                                            <tr class="text-dark">
+                                                <td style="min-width: 80px;"><?= $row['nama_tempat']?></td>
+                                                <td><?= $row['alamat']?></td>
+                                                <td style="min-width: 100px;">
+                                                    <a href="./ubah.php?id=<?= $row['id']?>" style="color: blue;">Ubah</a> | 
+                                                    <a href="./hapus.php?id=<?= $row['id']?>" style="color: blue;">Hapus</a>
                                                 </td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
+                                                <td><?= $row['snrs']?></td>
+                                                <td><?= $row['sss']?></td>
+                                                <td><?= $row['iqas']?></td>
                                             </tr>
+                                            <?php
+                                                }
+                                            ?>
                                         </tbody>
                                     </table>
                                     
