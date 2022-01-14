@@ -97,9 +97,18 @@ $result = mysqli_query($conn, $sql);
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./minn/index.php" class="dropdown-item">
-                                        <i class="fas fa-sign-in-alt"></i>
-                                        <span class="ml-2">Login</span>
+                                        <?php
+                                        if (isset($_SESSION["login"])){
+                                            echo "<a href='./minn/logout.php' class='dropdown-item'>
+                                                    <i class='fas fa-power-off'></i>
+                                                    <span class='ml-2'>Logout</span>";
+                                        }else{
+                                            echo "<a href='./minn/index.php' class='dropdown-item'>
+                                                    <i class='fas fa-sign-in-alt'></i>
+                                                    <span class='ml-2'>Login</span>";
+                                        }
+                                        ?>
+                                        
                                     </a>
                                 </div>
                             </li>
@@ -225,7 +234,9 @@ $result = mysqli_query($conn, $sql);
                         </div>
                 </div>
 
-                
+                <?php
+                include "progressbar.php"
+                ?>
                 <div class="row">
                     <div class="col-lg-4 col-sm-6">
                         <div class="card">
@@ -235,7 +246,7 @@ $result = mysqli_query($conn, $sql);
                                     <div class="stat-digit"> <i class="fas fa-percent"></i><?= $snrs?></div>
                                 </div>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-success w-85" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-bar-<?=$color_bar_snrs?> w-<?=$progres_bar_snrs?>" role="progressbar" aria-valuenow="<?= $snrs?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +259,7 @@ $result = mysqli_query($conn, $sql);
                                     <div class="stat-digit"> <i class="fas fa-wifi"></i><?= $sss?></div>
                                 </div>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-primary w-75" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-bar-<?=$color_bar_sss?> w-<?=$progres_bar_sss?>" role="progressbar" aria-valuenow="<?= $sss?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -261,7 +272,7 @@ $result = mysqli_query($conn, $sql);
                                     <div class="stat-digit"> <i class="fas fa-satellite-dish"></i><?= $iqas?></div>
                                 </div>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-warning w-50" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar progress-bar-<?=$color_bar_iqas?> w-<?=$progres_bar_iqas?>" role="progressbar" aria-valuenow="<?= $iqas?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
