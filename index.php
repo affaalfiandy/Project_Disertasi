@@ -259,13 +259,13 @@ $result = mysqli_query($conn, $sql);
                                         </div>
                                     </div>
                                     <div class="col-4 my-5">
-                                        <div class="stat-digit"><i class="fas fa-percent"></i><?= $snrs?></div>
+                                        <div class="stat-digit"><i id="SNRDigit" class="fas fa-percent"></i><?= $snrs?></div>
                                     </div>
                                     </div>
                                 </div>
 
                                 <div class="progress" style="margin: 10px 20%;">
-                                    <div class="progress-bar progress-bar-<?=$color_bar_snrs?> w-<?=$progres_bar_snrs?>" role="progressbar" aria-valuenow="<?= $snrs?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div id="SNRBar" class="progress-bar progress-bar-<?=$color_bar_snrs?> w-<?=$progres_bar_snrs?>" role="progressbar" aria-valuenow="<?= $snrs?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -285,12 +285,12 @@ $result = mysqli_query($conn, $sql);
                                         </div>
                                     </div>
                                     <div class="col-4 my-5">
-                                        <div class="stat-digit"><i class="fas fa-percent"></i><?= $sss?></div>
+                                        <div class="stat-digit"><i class="fas fa-percent" id="SSSDigit"></i><?= $sss?></div>
                                     </div>
                                     </div>
                                 </div>
                                 <div class="progress" style="margin: 10px 20%;">
-                                    <div class="progress-bar progress-bar-<?=$color_bar_sss?> w-<?=$progres_bar_sss?>" role="progressbar" aria-valuenow="<?= $sss?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div id="SSSBar" class="progress-bar progress-bar-<?=$color_bar_sss?> w-<?=$progres_bar_sss?>" role="progressbar" aria-valuenow="<?= $sss?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -309,12 +309,12 @@ $result = mysqli_query($conn, $sql);
                                         </div>
                                     </div>
                                     <div class="col-4 my-5">
-                                        <div class="stat-digit"><i class="fas fa-percent"></i><?= $iqas?></div>
+                                        <div class="stat-digit"><i id="IQADigit" class="fas fa-percent"></i><?= $iqas?></div>
                                     </div>
                                     </div>
                                 </div>
                                 <div class="progress" style="margin: 10px 20%;">
-                                    <div class="progress-bar progress-bar-<?=$color_bar_iqas?> w-<?=$progres_bar_iqas?>" role="progressbar" aria-valuenow="<?= $iqas?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div id="IQABar" class="progress-bar progress-bar-<?=$color_bar_iqas?> w-<?=$progres_bar_iqas?>" role="progressbar" aria-valuenow="<?= $iqas?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
@@ -391,24 +391,28 @@ $result = mysqli_query($conn, $sql);
     <script src="./vendor/jqvmap/js/jquery.vmap.usa.js"></script>
     <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
 
+    <script src="index.js"></script>
 
     <script>
     (function($) {
     "use strict";
 
-    var data = [],
+    var data1 = [],
+        totalPoints = 300;
+    var data2 = [],
+        totalPoints = 300;
+    var data3 = [],
         totalPoints = 300;
 
-    function getRandomData() {
-
-        if (data.length > 0)
-            data = data.slice(1);
+    function getRandomData1(valIN) {
+        if (data1.length > 0)
+            data1 = data1.slice(1);
 
         // Do a random walk
 
-        while (data.length < totalPoints) {
+        while (data1.length < totalPoints) {
 
-            var prev = data.length > 0 ? data[data.length - 1] : 50,
+            var prev = data1.length > 0 ? data1[data1.length - 1] : 50,
                 y = prev + Math.random() * 10 - 5;
 
             if (y < 0) {
@@ -417,14 +421,74 @@ $result = mysqli_query($conn, $sql);
                 y = 100;
             }
 
-            data.push(y);
+            data1.push(valIN);
         }
 
         // Zip the generated y values with the x values
 
         var res = [];
-        for (var i = 0; i < data.length; ++i) {
-            res.push([i, data[i]])
+        for (var i = 0; i < data1.length; ++i) {
+            res.push([i, data1[i]])
+        }
+
+        return res;
+    }
+
+    function getRandomData2(valIN) {
+        if (data2.length > 0)
+            data2 = data2.slice(1);
+
+        // Do a random walk
+
+        while (data2.length < totalPoints) {
+
+            var prev = data2.length > 0 ? data2[data2.length - 1] : 50,
+                y = prev + Math.random() * 10 - 5;
+
+            if (y < 0) {
+                y = 0;
+            } else if (y > 100) {
+                y = 100;
+            }
+
+            data2.push(valIN);
+        }
+
+        // Zip the generated y values with the x values
+
+        var res = [];
+        for (var i = 0; i < data2.length; ++i) {
+            res.push([i, data2[i]])
+        }
+
+        return res;
+    }
+
+    function getRandomData3(valIN) {
+        if (data3.length > 0)
+            data3 = data3.slice(1);
+
+        // Do a random walk
+
+        while (data3.length < totalPoints) {
+
+            var prev = data3.length > 0 ? data3[data3.length - 1] : 50,
+                y = prev + Math.random() * 10 - 5;
+
+            if (y < 0) {
+                y = 0;
+            } else if (y > 100) {
+                y = 100;
+            }
+
+            data3.push(valIN);
+        }
+
+        // Zip the generated y values with the x values
+
+        var res = [];
+        for (var i = 0; i < data3.length; ++i) {
+            res.push([i, data3[i]])
         }
 
         return res;
@@ -432,7 +496,7 @@ $result = mysqli_query($conn, $sql);
 
     // Set up the control widget
 
-    var updateInterval = 30;
+    var updateInterval = 100;
     $("#updateInterval").val(updateInterval).change(function() {
         var v = $(this).val();
         if (v && !isNaN(+v)) {
@@ -448,7 +512,7 @@ $result = mysqli_query($conn, $sql);
 
     //graph 1
 
-    var plot1 = $.plot("#cpu-load-1", [getRandomData()], {
+    var plot1 = $.plot("#cpu-load-1", [getRandomData1()], {
         series: {
             shadowSize: 0 // Drawing is faster without shadows
         },
@@ -473,7 +537,8 @@ $result = mysqli_query($conn, $sql);
         }
     });
     function update1() {
-        plot1.setData([getRandomData()]);
+        const data1up = Number(document.getElementById("SNRDigit").innerHTML)
+        plot1.setData([getRandomData1(data1up)]);
         // Since the axes don't change, we don't need to call plot.setupGrid()
         plot1.draw();
         setTimeout(update1, updateInterval);
@@ -482,7 +547,7 @@ $result = mysqli_query($conn, $sql);
 
     // graph 2
 
-    var plot2 = $.plot("#cpu-load-2", [getRandomData()], {
+    var plot2 = $.plot("#cpu-load-2", [getRandomData2()], {
         series: {
             shadowSize: 0 // Drawing is faster without shadows
         },
@@ -507,7 +572,8 @@ $result = mysqli_query($conn, $sql);
         }
     });
     function update2() {
-        plot2.setData([getRandomData()]);
+        const data2up = Number(document.getElementById("SSSDigit").innerHTML)
+        plot2.setData([getRandomData2(data2up)]);
         // Since the axes don't change, we don't need to call plot.setupGrid()
         plot2.draw();
         setTimeout(update2, updateInterval);
@@ -516,7 +582,7 @@ $result = mysqli_query($conn, $sql);
 
     //graph 3
 
-    var plot3 = $.plot("#cpu-load-3", [getRandomData()], {
+    var plot3 = $.plot("#cpu-load-3", [getRandomData3()], {
         series: {
             shadowSize: 0 // Drawing is faster without shadows
         },
@@ -541,7 +607,8 @@ $result = mysqli_query($conn, $sql);
         }
     });
     function update3() {
-        plot3.setData([getRandomData()]);
+        const data3up = Number(document.getElementById("IQADigit").innerHTML)
+        plot3.setData([getRandomData3(data3up)]);
         // Since the axes don't change, we don't need to call plot.setupGrid()
         plot3.draw();
         setTimeout(update3, updateInterval);
