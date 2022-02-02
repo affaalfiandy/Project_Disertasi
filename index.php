@@ -137,13 +137,13 @@ $result = mysqli_query($conn, $sql);
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
 
-                        <li>
-                            <a href="./index.php" class="nav-text"><i class="fas fa-globe"></i> Dashboard</a>
-                        </li>
+                    <li>
+                        <a href="../index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
+                    </li>
 
                         <?php
                         if (isset($_SESSION["login"])){
-                            echo "<li><a href='./minn/index.php'><i class='icon icon-single-04'></i> Admin</a></li>";
+                            echo "<li><a href='./minn/index.php'><i class='icon icon-single-04'></i><span class='nav-text'> Admin</span></a></li>";
                         }
                         ?>
 
@@ -244,9 +244,9 @@ $result = mysqli_query($conn, $sql);
                 <?php
                 include "progressbar.php"
                 ?>
-                <div class="row">
-                    <div class="col-lg-10 col-sm-6 d-flex justify-content-center">
-                        <div class="card" style="max-width: 95%; min-width: 95%; "> 
+                <div class="row justify-content-lg-center">
+                    <div class="col-lg-10">
+                        <div class="card"> 
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
                                     <div class="stat-content">
@@ -271,8 +271,8 @@ $result = mysqli_query($conn, $sql);
                         </div>
                     </div>
 
-                    <div class="col-lg-10 col-sm-6 d-flex justify-content-center">
-                        <div class="card" style="max-width: 95%; min-width: 95%; ">
+                    <div class="col-lg-10">
+                        <div class="card">
                             <div class="stat-widget-two card-body">
                             <div class="container mt-0">
                                     <div class="stat-content">
@@ -295,8 +295,8 @@ $result = mysqli_query($conn, $sql);
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-10 col-sm-6 d-flex justify-content-center">
-                        <div class="card" style="max-width: 95%; min-width: 95%; ">
+                    <div class="col-lg-10">
+                        <div class="card">
                             <div class="stat-widget-two card-body">
                             <div class="container mt-0">
                                     <div class="stat-content">

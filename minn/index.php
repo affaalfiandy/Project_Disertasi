@@ -111,10 +111,10 @@ $result = mysqli_query($conn, $sql);
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Main Menu</li>
                     <li>
-                        <a href="../index.php" class="nav-text"><i class="fas fa-globe"></i> Dashboard</a>
+                        <a href="../index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="" ><i class="icon icon-single-04"></i> Admin</a>
+                        <a href="" ><i class="icon icon-single-04"></i><span class="nav-text"> Admin</span></a>
                     </li>
                     <!-- <li>
                         <a href="javascript:void" class="nav-text"><i class="icon icon-single-04"></i> Dashboard</a>
