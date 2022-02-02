@@ -93,6 +93,13 @@ $result = mysqli_query($conn, $sql);
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
+                                <?php
+                                if (isset($_SESSION["login"])){
+                                    $namee =  $_SESSION["username"];
+                                echo"<h6 class='m-1 mr-4'>Selamat datang, $namee </h6>
+                                     <p style='font-size: 34px;' class='mt-2'> | </p>";
+                                    
+                                }?>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="mdi mdi-account"></i>
                                 </a>
@@ -238,40 +245,75 @@ $result = mysqli_query($conn, $sql);
                 include "progressbar.php"
                 ?>
                 <div class="row">
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card">
+                    <div class="col-lg-10 col-sm-6 d-flex justify-content-center">
+                        <div class="card" style="max-width: 95%; min-width: 95%; "> 
                             <div class="stat-widget-two card-body">
-                                <div class="stat-content">
-                                    <div class="stat-text">SnR Score</div>
-                                    <div class="stat-digit"> <i class="fas fa-percent"></i><?= $snrs?></div>
+                                <div class="container mt-0">
+                                    <div class="stat-content">
+                                        <div class="stat-text">SnR Score</div>
+                                    </div>
+                                    <div class="row my-0 py-0">
+                                    <div class="card-body col-8">
+                                        <div class="cpu-load-chart">
+                                            <div id="cpu-load-1" class="cpu-load"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 my-5">
+                                        <div class="stat-digit"><i class="fas fa-percent"></i><?= $snrs?></div>
+                                    </div>
+                                    </div>
                                 </div>
-                                <div class="progress">
+
+                                <div class="progress" style="margin: 10px 20%;">
                                     <div class="progress-bar progress-bar-<?=$color_bar_snrs?> w-<?=$progres_bar_snrs?>" role="progressbar" aria-valuenow="<?= $snrs?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card">
+
+                    <div class="col-lg-10 col-sm-6 d-flex justify-content-center">
+                        <div class="card" style="max-width: 95%; min-width: 95%; ">
                             <div class="stat-widget-two card-body">
-                                <div class="stat-content">
-                                    <div class="stat-text">Signal Strength Score</div>
-                                    <div class="stat-digit"> <i class="fas fa-wifi"></i><?= $sss?></div>
+                            <div class="container mt-0">
+                                    <div class="stat-content">
+                                        <div class="stat-text">Signal Strength Score</div>
+                                    </div>
+                                    <div class="row my-0 py-0">
+                                    <div class="card-body col-8">
+                                        <div class="cpu-load-chart">
+                                            <div id="cpu-load-2" class="cpu-load"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 my-5">
+                                        <div class="stat-digit"><i class="fas fa-percent"></i><?= $sss?></div>
+                                    </div>
+                                    </div>
                                 </div>
-                                <div class="progress">
+                                <div class="progress" style="margin: 10px 20%;">
                                     <div class="progress-bar progress-bar-<?=$color_bar_sss?> w-<?=$progres_bar_sss?>" role="progressbar" aria-valuenow="<?= $sss?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card">
+                    <div class="col-lg-10 col-sm-6 d-flex justify-content-center">
+                        <div class="card" style="max-width: 95%; min-width: 95%; ">
                             <div class="stat-widget-two card-body">
-                                <div class="stat-content">
-                                    <div class="stat-text">IQA Score</div>
-                                    <div class="stat-digit"> <i class="fas fa-satellite-dish"></i><?= $iqas?></div>
+                            <div class="container mt-0">
+                                    <div class="stat-content">
+                                        <div class="stat-text">IQA Score</div>
+                                    </div>
+                                    <div class="row my-0 py-0">
+                                    <div class="card-body col-8">
+                                        <div class="cpu-load-chart">
+                                            <div id="cpu-load-3" class="cpu-load"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 my-5">
+                                        <div class="stat-digit"><i class="fas fa-percent"></i><?= $iqas?></div>
+                                    </div>
+                                    </div>
                                 </div>
-                                <div class="progress">
+                                <div class="progress" style="margin: 10px 20%;">
                                     <div class="progress-bar progress-bar-<?=$color_bar_iqas?> w-<?=$progres_bar_iqas?>" role="progressbar" aria-valuenow="<?= $iqas?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
@@ -296,8 +338,7 @@ $result = mysqli_query($conn, $sql);
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p> 
+                <p>Copyright © 2022</p>
             </div>
         </div>
         <!--**********************************
@@ -321,22 +362,6 @@ $result = mysqli_query($conn, $sql);
     <!--**********************************
         Scripts
     ***********************************-->
-
-    <!-- Maps -->
-    <!-- <script>
-        function initMap(){
-            var location = {lat: -25.363, lng: 131.044};
-            var map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 4,
-                center: location
-            });
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-        }
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvSRBoy6Zroojf7KAQel-OosRExA1-26I&callback=initMap"></script> -->
 
     <!-- Required vendors -->
     <script src="./vendor/global/global.min.js"></script>
@@ -367,7 +392,166 @@ $result = mysqli_query($conn, $sql);
     <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
 
 
-    <script src="./js/dashboard/dashboard-1.js"></script>
+    <script>
+    (function($) {
+    "use strict";
+
+    var data = [],
+        totalPoints = 300;
+
+    function getRandomData() {
+
+        if (data.length > 0)
+            data = data.slice(1);
+
+        // Do a random walk
+
+        while (data.length < totalPoints) {
+
+            var prev = data.length > 0 ? data[data.length - 1] : 50,
+                y = prev + Math.random() * 10 - 5;
+
+            if (y < 0) {
+                y = 0;
+            } else if (y > 100) {
+                y = 100;
+            }
+
+            data.push(y);
+        }
+
+        // Zip the generated y values with the x values
+
+        var res = [];
+        for (var i = 0; i < data.length; ++i) {
+            res.push([i, data[i]])
+        }
+
+        return res;
+    }
+
+    // Set up the control widget
+
+    var updateInterval = 30;
+    $("#updateInterval").val(updateInterval).change(function() {
+        var v = $(this).val();
+        if (v && !isNaN(+v)) {
+            updateInterval = +v;
+            if (updateInterval < 1) {
+                updateInterval = 1;
+            } else if (updateInterval > 3000) {
+                updateInterval = 3000;
+            }
+            $(this).val("" + updateInterval);
+        }
+    });
+
+    //graph 1
+
+    var plot1 = $.plot("#cpu-load-1", [getRandomData()], {
+        series: {
+            shadowSize: 0 // Drawing is faster without shadows
+        },
+        yaxis: {
+            min: 0,
+            max: 100
+        },
+        xaxis: {
+            show: false
+        },
+        colors: ["#007BFF"],
+        grid: {
+            color: "transparent",
+            hoverable: true,
+            borderWidth: 0,
+            backgroundColor: 'transparent'
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "Y: %y",
+            defaultTheme: false
+        }
+    });
+    function update1() {
+        plot1.setData([getRandomData()]);
+        // Since the axes don't change, we don't need to call plot.setupGrid()
+        plot1.draw();
+        setTimeout(update1, updateInterval);
+    }
+    update1();
+
+    // graph 2
+
+    var plot2 = $.plot("#cpu-load-2", [getRandomData()], {
+        series: {
+            shadowSize: 0 // Drawing is faster without shadows
+        },
+        yaxis: {
+            min: 0,
+            max: 100
+        },
+        xaxis: {
+            show: false
+        },
+        colors: ["#007BFF"],
+        grid: {
+            color: "transparent",
+            hoverable: true,
+            borderWidth: 0,
+            backgroundColor: 'transparent'
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "Y: %y",
+            defaultTheme: false
+        }
+    });
+    function update2() {
+        plot2.setData([getRandomData()]);
+        // Since the axes don't change, we don't need to call plot.setupGrid()
+        plot2.draw();
+        setTimeout(update2, updateInterval);
+    }
+    update2();
+
+    //graph 3
+
+    var plot3 = $.plot("#cpu-load-3", [getRandomData()], {
+        series: {
+            shadowSize: 0 // Drawing is faster without shadows
+        },
+        yaxis: {
+            min: 0,
+            max: 100
+        },
+        xaxis: {
+            show: false
+        },
+        colors: ["#007BFF"],
+        grid: {
+            color: "transparent",
+            hoverable: true,
+            borderWidth: 0,
+            backgroundColor: 'transparent'
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "Y: %y",
+            defaultTheme: false
+        }
+    });
+    function update3() {
+        plot3.setData([getRandomData()]);
+        // Since the axes don't change, we don't need to call plot.setupGrid()
+        plot3.draw();
+        setTimeout(update3, updateInterval);
+    }
+    update3();
+    
+})(jQuery);
+const wt = new PerfectScrollbar('.widget-todo');
+const wtl = new PerfectScrollbar('.widget-timeline');
+</script>
 
 </body>
 

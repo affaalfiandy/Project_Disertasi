@@ -172,7 +172,7 @@ $result = mysqli_query($conn, $sql);
                                                 <td><?= $row['alamat']?></td>
                                                 <td style="min-width: 100px;">
                                                     <a href="./ubah.php?id=<?= $row['id']?>" style="color: blue;">Ubah</a> | 
-                                                    <a href="./hapus.php?id=<?= $row['id']?>" style="color: blue;">Hapus</a>
+                                                    <a href="./hapus.php?id=<?= $row['id']?>" style="color: blue;" onclick="return confirm('Apakah anda yakin ingin menghapus <?=$row['nama_tempat']?>?');">Hapus</a>
                                                 </td>
                                                 <td><?= $row['snrs']?></td>
                                                 <td><?= $row['sss']?></td>
@@ -201,8 +201,7 @@ $result = mysqli_query($conn, $sql);
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p> 
+                <p>Copyright © 2022</p>
             </div>
         </div>
         <!--**********************************

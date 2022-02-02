@@ -119,7 +119,7 @@ if (mysqli_affected_rows($conn) > 0) {
                                     <i class="mdi mdi-account ml-2"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="../index.php" class="dropdown-item">
+                                    <a href="logout.php" class="dropdown-item">
                                         <i class="fas fa-power-off"></i>
                                         <span class="ml-2">Logout</span>
                                     </a>
@@ -178,21 +178,21 @@ if (mysqli_affected_rows($conn) > 0) {
                                 <div class="form-row">
                                     <div class="form-group col-md-7">
                                         <label>Nama Tempat</label>
-                                        <input type="text" name="nama_tempat" class="form-control" placeholder="..." value="<?= $row["nama_tempat"]?>">
+                                        <input type="text" name="nama_tempat" class="form-control" placeholder="..." autocomplete="off" value="<?= $row["nama_tempat"]?>">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-3">
                                         <label>SnR Score</label>
-                                        <input type="text" name="snrs" class="form-control" placeholder="..." value="<?= $row["snrs"]?>">
+                                        <input type="text" name="snrs" class="form-control" placeholder="..." autocomplete="off" value="<?= $row["snrs"]?>">
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>Signal Strength Score</label>
-                                        <input type="text" name="sss" class="form-control" placeholder="..." value="<?= $row["sss"]?>">
+                                        <input type="text" name="sss" class="form-control" placeholder="..." autocomplete="off" value="<?= $row["sss"]?>">
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label>IQA Score</label>
-                                        <input type="text" name="iqas" class="form-control" placeholder="..." value="<?= $row["iqas"]?>">
+                                        <input type="text" name="iqas" class="form-control" placeholder="..." autocomplete="off" value="<?= $row["iqas"]?>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -222,8 +222,7 @@ if (mysqli_affected_rows($conn) > 0) {
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2019</p>
-                <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p> 
+                <p>Copyright © 2022</p>
             </div>
         </div>
         <!--**********************************
