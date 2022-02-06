@@ -82,7 +82,7 @@ $result = mysqli_query($conn, $sql);
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
-                                <h6 class="m-1 mr-4">Selamat datang, <?=$_SESSION["username"]?> </h6>
+                                <h6 class="m-1 mr-4">Welcome, <?=$_SESSION["username"]?> </h6>
                                 <p style="font-size: 34px;" class="mt-2"> | </p>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="mdi mdi-account ml-2"></i>
@@ -114,6 +114,9 @@ $result = mysqli_query($conn, $sql);
                         <a href="../index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
                     </li>
                     <li>
+                        <a href="#"><i class="fas fa-file-export"></i><span class="nav-text"> Export Data</span></a>
+                    </li>
+                    <li>
                         <a href="" ><i class="icon icon-single-04"></i><span class="nav-text"> Admin</span></a>
                     </li>
                     <!-- <li>
@@ -143,8 +146,8 @@ $result = mysqli_query($conn, $sql);
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Tabel Data</h4>
-                                <a href="tambah.php"><button class="btn btn-large btn-info"><h5 class="text-dark m-1">Tambah Data</h5></button></a>
+                                <h4 class="card-title">Data Table</h4>
+                                <a href="tambah.php"><button class="btn btn-large btn-info"><h5 class="text-dark m-1">New Data</h5></button></a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -154,8 +157,8 @@ $result = mysqli_query($conn, $sql);
                                     <table id="example" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>
-                                                <th>Nama</th>
-                                                <th>Lokasi</th>
+                                                <th>Place Name</th>
+                                                <th>Location</th>
                                                 <th>Action</th>
                                                 <th>SnR Score</th>
                                                 <th>Signal Strength</th>
@@ -171,8 +174,8 @@ $result = mysqli_query($conn, $sql);
                                                 <td style="min-width: 80px;"><?= $row['nama_tempat']?></td>
                                                 <td><?= $row['alamat']?></td>
                                                 <td style="min-width: 100px;">
-                                                    <a href="./ubah.php?id=<?= $row['id']?>" style="color: blue;">Ubah</a> | 
-                                                    <a href="./hapus.php?id=<?= $row['id']?>" style="color: blue;" onclick="return confirm('Apakah anda yakin ingin menghapus <?=$row['nama_tempat']?>?');">Hapus</a>
+                                                    <a href="./ubah.php?id=<?= $row['id']?>" style="color: blue;">Edit</a> | 
+                                                    <a href="./hapus.php?id=<?= $row['id']?>" style="color: blue;" onclick="return confirm('Are you sure want to delete <?=$row['nama_tempat']?>?');">Delete</a>
                                                 </td>
                                                 <td><?= $row['snrs']?></td>
                                                 <td><?= $row['sss']?></td>

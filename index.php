@@ -96,7 +96,7 @@ $result = mysqli_query($conn, $sql);
                                 <?php
                                 if (isset($_SESSION["login"])){
                                     $namee =  $_SESSION["username"];
-                                echo"<h6 class='m-1 mr-4'>Selamat datang, $namee </h6>
+                                echo"<h6 class='m-1 mr-4'>Welcome, $namee </h6>
                                      <p style='font-size: 34px;' class='mt-2'> | </p>";
                                     
                                 }?>
@@ -138,12 +138,14 @@ $result = mysqli_query($conn, $sql);
                     <li class="nav-label first">Main Menu</li>
 
                     <li>
-                        <a href="../index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
+                        <a href="./index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
                     </li>
+
 
                         <?php
                         if (isset($_SESSION["login"])){
-                            echo "<li><a href='./minn/index.php'><i class='icon icon-single-04'></i><span class='nav-text'> Admin</span></a></li>";
+                            echo "<li><a href='#'><i class='fas fa-file-export'></i><span class='nav-text'> Export Data</span></a></li>
+                                  <li><a href='./minn/index.php'><i class='icon icon-single-04'></i><span class='nav-text'> Admin</span></a></li>";
                         }
                         ?>
 
@@ -210,7 +212,7 @@ $result = mysqli_query($conn, $sql);
 
                     <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Location</h4>
+                                <h4 class="card-title">Select Location</h4>
                             </div>
                             <div class="card-body px-0" style="height: 250px; overflow: scroll;">
                                 
@@ -241,90 +243,124 @@ $result = mysqli_query($conn, $sql);
                         </div>
                 </div>
 
-                <?php
-                include "progressbar.php"
-                ?>
-                <div class="row justify-content-lg-center">
-                    <div class="col-lg-10">
-                        <div class="card"> 
-                            <div class="stat-widget-two card-body">
-                                <div class="container mt-0">
-                                    <div class="stat-content">
-                                        <div class="stat-text">SnR Score</div>
-                                    </div>
-                                    <div class="row my-0 py-0">
-                                    <div class="card-body col-8">
-                                        <div class="cpu-load-chart">
-                                            <div id="cpu-load-1" class="cpu-load"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 my-5">
-                                        <div class="stat-digit"><i id="SNRDigit" class="fas fa-percent"></i><?= $snrs?></div>
-                                    </div>
-                                    </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card" style="background-color: lightblue; height:120px;">
+                            <div class="card-body">
+                                <h4 class="text-muted">IQA Score</h4>
+                                <div class="stat-digit text-dark text-center" style="font-size: 19px;">
+                                    <i class="fas fa-percent"></i> 
+                                    <span id="IQADigit" style="font-size: 30px; font-weight: 500;"></span >
                                 </div>
-
-                                <div class="progress" style="margin: 10px 20%;">
-                                    <div id="SNRBar" class="progress-bar progress-bar-<?=$color_bar_snrs?> w-<?=$progres_bar_snrs?>" role="progressbar" aria-valuenow="<?= $snrs?>" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+                                <div class="progress">
+                                    <div id="IQABar"></div>
+                                </div> 
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-10">
-                        <div class="card">
-                            <div class="stat-widget-two card-body">
-                            <div class="container mt-0">
-                                    <div class="stat-content">
-                                        <div class="stat-text">Signal Strength Score</div>
-                                    </div>
-                                    <div class="row my-0 py-0">
-                                    <div class="card-body col-8">
-                                        <div class="cpu-load-chart">
-                                            <div id="cpu-load-2" class="cpu-load"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 my-5">
-                                        <div class="stat-digit"><i class="fas fa-percent" id="SSSDigit"></i><?= $sss?></div>
-                                    </div>
-                                    </div>
+                    <div class="col-4">
+                        <div class="card" style="background-color: lightgreen; height:120px;">
+                            <div class="card-body">
+                                <h4 class="text-muted">SnR</h4>
+                                <div class="stat-digit text-dark text-center" style="font-size: 19px;">
+                                    <span id="SNRDigit" style="font-size: 30px; font-weight: 500;"></span><span style="font-size: 25px;"> dB</span>
                                 </div>
-                                <div class="progress" style="margin: 10px 20%;">
-                                    <div id="SSSBar" class="progress-bar progress-bar-<?=$color_bar_sss?> w-<?=$progres_bar_sss?>" role="progressbar" aria-valuenow="<?= $sss?>" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+                                <!-- <div class="progress" style="margin: 10px 20%;">
+                                    <div id="SNRBar"></div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-10">
-                        <div class="card">
-                            <div class="stat-widget-two card-body">
-                            <div class="container mt-0">
-                                    <div class="stat-content">
-                                        <div class="stat-text">IQA Score</div>
-                                    </div>
-                                    <div class="row my-0 py-0">
-                                    <div class="card-body col-8">
-                                        <div class="cpu-load-chart">
-                                            <div id="cpu-load-3" class="cpu-load"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 my-5">
-                                        <div class="stat-digit"><i id="IQADigit" class="fas fa-percent"></i><?= $iqas?></div>
-                                    </div>
-                                    </div>
+                    <div class="col-4">
+                        <div class="card" style="background-color: lightsalmon; height:120px;">
+                            <div class="card-body">
+                                <h4 class="text-muted">Signal Strength</h4>
+                                <div class="stat-digit text-dark text-center" style="font-size: 19px;"> 
+                                    <span id="SSSDigit" style="font-size: 30px; font-weight: 500;"></span><span style="font-size: 25px;"> dBm</span>
                                 </div>
-                                <div class="progress" style="margin: 10px 20%;">
-                                    <div id="IQABar" class="progress-bar progress-bar-<?=$color_bar_iqas?> w-<?=$progres_bar_iqas?>" role="progressbar" aria-valuenow="<?= $iqas?>" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
+                                <!-- <div class="progress" style="margin: 10px 20%;">
+                                    <div id="SSSBar" role="progressbar"></div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="row justify-content-lg-center">
 
-                
-            
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="stat-widget-two card-body">
+                                <div class="container mt-0">
+                                    <div class="stat-content">
+                                        <div class="stat-text">Image Quality Assesment (IQA) Score</div>
+                                    </div>
+                                    <div class="row my-0 py-0">
+                                        <div class=" p-0 mx-0"
+                                            style="position:absolute; top:45%; transform: rotate(-90deg);">
+                                            <span style="font-size: 12px; color:darkslategrey;">Score</span>
+                                        </div>
+                                        <div class="col-12 pl-4">
+                                            <div class="cpu-load-chart">
+                                                <div id="cpu-load-3" class="cpu-load"></div>
+                                            </div>
+                                            <span style="font-size: 12px; color:darkslategrey;">Time</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="stat-widget-two card-body">
+                                <div class="container mt-0">
+                                    <div class="stat-content">
+                                        <div class="stat-text">Signal to Noise Ratio (SnR) Score</div>
+                                    </div>
+                                    <div class="row my-0 py-0">
+                                        <div class=" p-0 mx-0"
+                                            style="position:absolute; top:45%; transform: rotate(-90deg);">
+                                            <span style="font-size: 12px; color:darkslategrey;">dB</span>
+                                        </div>
+                                        <div class="col-12 pl-4">
+                                            <div class="cpu-load-chart">
+                                                <div id="cpu-load-1" class="cpu-load"></div>
+                                            </div>
+                                            <span style="font-size: 12px; color:darkslategrey;">Time</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="stat-widget-two card-body">
+                                <div class="container mt-0">
+                                    <div class="stat-content">
+                                        <div class="stat-text">Signal Strength</div>
+                                    </div>
+                                    <div class="row my-0 py-0">
+                                        <div class=" p-0 mx-0"
+                                            style="position:absolute; top:45%; transform: rotate(-90deg);">
+                                            <span style="font-size: 12px; color:darkslategrey;">dBm</span>
+                                        </div>
+                                        <div class="col-12 pl-4">
+                                            <div class="cpu-load-chart">
+                                                <div id="cpu-load-2" class="cpu-load"></div>
+                                            </div>
+                                            <span style="font-size: 12px; color:darkslategrey;">Time</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
         </div>
@@ -510,24 +546,30 @@ $result = mysqli_query($conn, $sql);
         }
     });
 
-    //graph 1
+    var options = {
+
+};
+
+    //graph SNRS
 
     var plot1 = $.plot("#cpu-load-1", [getRandomData1()], {
+        label: "foo",
         series: {
             shadowSize: 0 // Drawing is faster without shadows
         },
         yaxis: {
             min: 0,
-            max: 100
+            max: 40
         },
         xaxis: {
             show: false
         },
         colors: ["#007BFF"],
         grid: {
-            color: "transparent",
+            borderColor: {right: "transparent", left:"grey", bottom:"grey", top:"grey"},
+            color: "grey",
             hoverable: true,
-            borderWidth: 0,
+            borderWidth: 0.5,
             backgroundColor: 'transparent'
         },
         tooltip: true,
@@ -545,24 +587,25 @@ $result = mysqli_query($conn, $sql);
     }
     update1();
 
-    // graph 2
+    // graph SSS
 
     var plot2 = $.plot("#cpu-load-2", [getRandomData2()], {
         series: {
             shadowSize: 0 // Drawing is faster without shadows
         },
         yaxis: {
-            min: 0,
-            max: 100
+            min: -100,
+            max: 0
         },
         xaxis: {
             show: false
         },
         colors: ["#007BFF"],
         grid: {
-            color: "transparent",
+            borderColor: {right: "transparent", left:"grey", bottom:"grey", top:"grey"},
+            color: "grey",
             hoverable: true,
-            borderWidth: 0,
+            borderWidth: 0.5,
             backgroundColor: 'transparent'
         },
         tooltip: true,
@@ -580,7 +623,7 @@ $result = mysqli_query($conn, $sql);
     }
     update2();
 
-    //graph 3
+    //graph IQAS
 
     var plot3 = $.plot("#cpu-load-3", [getRandomData3()], {
         series: {
@@ -595,9 +638,10 @@ $result = mysqli_query($conn, $sql);
         },
         colors: ["#007BFF"],
         grid: {
-            color: "transparent",
+            borderColor: {right: "transparent", left:"grey", bottom:"grey", top:"grey"},
+            color: "grey",
             hoverable: true,
-            borderWidth: 0,
+            borderWidth: 0.5,
             backgroundColor: 'transparent'
         },
         tooltip: true,

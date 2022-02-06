@@ -20,11 +20,11 @@ $sql = "INSERT INTO `dataum`(`id`, `nama_tempat`, `snrs`, `sss`, `iqas`, `alamat
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_affected_rows($conn) > 0) {
-    echo "<script>alert('Data Berhasil Ditambahkan'); 
+    echo "<script>alert('Data has been added'); 
     location.href='index.php'</script>";
     exit;
 }else{
-    echo "<script>alert('Data Gagal Ditambahkan');</script>";
+    echo "<script>alert('Fail to add this data');</script>";
     exit;
 }
 }
@@ -102,7 +102,7 @@ if (mysqli_affected_rows($conn) > 0) {
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
-                                <h6 class="m-1 mr-4">Selamat datang, <?=$_SESSION["username"]?> </h6>
+                                <h6 class="m-1 mr-4">Welcome, <?=$_SESSION["username"]?> </h6>
                                 <p style="font-size: 34px;" class="mt-2"> | </p>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="mdi mdi-account ml-2"></i>
@@ -134,6 +134,9 @@ if (mysqli_affected_rows($conn) > 0) {
                         <a href="../index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
                     </li>
                     <li>
+                        <a href="#"><i class="fas fa-file-export"></i><span class="nav-text"> Export Data</span></a>
+                    </li>
+                    <li>
                         <a href="./index.php" class="nav-text"><i class="icon icon-single-04"></i><span class="nav-text"> Admin</span></a>
                     </li>
                 </ul>
@@ -162,7 +165,7 @@ if (mysqli_affected_rows($conn) > 0) {
 
                                 <div class="form-row">
                                     <div class="form-group col-md-7">
-                                        <label>Nama Tempat</label>
+                                        <label>Place Name</label>
                                         <input type="text" name="nama_tempat" class="form-control" placeholder="..." autocomplete="off">
                                     </div>
                                 </div>
@@ -181,10 +184,10 @@ if (mysqli_affected_rows($conn) > 0) {
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Alamat</label>
+                                    <label>Location</label>
                                     <textarea name="alamat" class="form-control" placeholder="Text Here..."></textarea>
                                 </div>
-                                <button type="submit" name="tambah" class="btn btn-primary">Tambah</button>
+                                <button type="submit" name="tambah" class="btn btn-primary">Add</button>
                             </form>
                         </div>
                     </div>

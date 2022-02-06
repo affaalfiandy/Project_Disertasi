@@ -31,11 +31,11 @@ $sql = "UPDATE `dataum`
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_affected_rows($conn) > 0) {
-    echo "<script>alert('Data Berhasil Diubah'); 
+    echo "<script>alert('Data has been changed'); 
     location.href='index.php'</script>";
     exit;
 }else{
-    echo "<script>alert('Data Gagal Diubah');</script>";
+    echo "<script>alert('Fail to change this data');</script>";
     exit;
 }
 }
@@ -113,7 +113,7 @@ if (mysqli_affected_rows($conn) > 0) {
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
-                                <h6 class="m-1 mr-4">Selamat datang, <?=$_SESSION["username"]?> </h6>
+                                <h6 class="m-1 mr-4">Welcome, <?=$_SESSION["username"]?> </h6>
                                 <p style="font-size: 34px;" class="mt-2"> | </p>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <i class="mdi mdi-account ml-2"></i>
@@ -145,6 +145,9 @@ if (mysqli_affected_rows($conn) > 0) {
                         <a href="../index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
                     </li>
                     <li>
+                        <a href="#"><i class="fas fa-file-export"></i><span class="nav-text"> Export Data</span></a>
+                    </li>
+                    <li>
                         <a href="./index.php" class="nav-text"><i class="icon icon-single-04"></i><span class="nav-text"> Admin</span></a>
                     </li>
                 </ul>
@@ -164,7 +167,7 @@ if (mysqli_affected_rows($conn) > 0) {
 
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Form Tambah data</h4>
+                        <h4 class="card-title">Edit data</h4>
                         <h3><a href="./index.php">&times;</a></h3>
                     </div>
                     <div class="card-body text-dark">
@@ -177,7 +180,7 @@ if (mysqli_affected_rows($conn) > 0) {
 
                                 <div class="form-row">
                                     <div class="form-group col-md-7">
-                                        <label>Nama Tempat</label>
+                                        <label>Place name</label>
                                         <input type="text" name="nama_tempat" class="form-control" placeholder="..." autocomplete="off" value="<?= $row["nama_tempat"]?>">
                                     </div>
                                 </div>
@@ -196,10 +199,10 @@ if (mysqli_affected_rows($conn) > 0) {
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Alamat</label>
+                                    <label>Location</label>
                                     <textarea name="alamat" class="form-control" placeholder="Text Here..."><?= $row["alamat"]?></textarea>
                                 </div>
-                                <button type="submit" name="ubah" class="btn btn-primary">Ubah</button>
+                                <button type="submit" name="ubah" class="btn btn-primary">Edit</button>
 
                                 <?php
                                     }

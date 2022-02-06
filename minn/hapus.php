@@ -14,11 +14,11 @@ if (isset($_GET['id'])) {
     $result = mysqli_query($conn, $sql);
     
     if(mysqli_affected_rows($conn) > 0){
-      echo "<script> alert('Data Berhasil Dihapus'); 
+      echo "<script> alert('Data has been deleted'); 
       location.href='./index.php' </script>";
       exit;
     }else{
-      echo "<script> alert('Gata Gagal Dihapus'); </script>";
+      echo "<script> alert('Fail to delete this data'); </script>";
     }
 }
 ?>
