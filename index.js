@@ -142,7 +142,7 @@ setInterval(function(){fetch('https://api.thingspeak.com/channels/1078947/fields
             document.getElementById("SSSDigit").innerHTML=sss
             // document.getElementById("SSSBar").className="progress-bar progress-bar-danger w-5"
         }else{
-            document.getElementById("SSSDigit").innerHTML=0
+            document.getElementById("SSSDigit").innerHTML=sss
             // document.getElementById("SSSBar").className="progress-bar progress-bar-danger w-0"
         }
     })

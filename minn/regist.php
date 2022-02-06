@@ -5,7 +5,7 @@ include_once "../dtbase.php";
 
 if (isset($_POST["signup"])){
     if($_POST["password"] != $_POST["password2"]){
-        echo "<script>alert('Konfirmasi password salah'); 
+        echo "<script>alert('Confirm password is wrong'); 
         location.href='./regist.php'</script>";
     }else{
         $username = strtolower(stripslashes($_POST["username"]));
@@ -13,13 +13,13 @@ if (isset($_POST["signup"])){
 
         $result = mysqli_query($conn, "SELECT username FROM `minnum` WHERE username = '$username'");
         if(mysqli_fetch_assoc($result)){
-            echo "<script>alert('Username tidak tersedia'); 
+            echo "<script>alert('Username is not available'); 
             location.href='./regist.php'</script>";
 
         }else{
         $password = password_hash($password, PASSWORD_DEFAULT);
         mysqli_query($conn, "INSERT INTO `minnum` VALUES('','$username','$password')");
-        echo "<script>alert('Data Berhasil Ditambahkan'); 
+        echo "<script>alert('Account has been created successfully'); 
         location.href='./login.php'</script>";
         }
     }
@@ -33,7 +33,7 @@ if (isset($_POST["signup"])){
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Registrasi Admin</title>
+    <title>Admin Registration</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
     <link href="../css/style.css" rel="stylesheet">
@@ -60,7 +60,7 @@ if (isset($_POST["signup"])){
                                             <input type="password" name="password" class="form-control">
                                         </div>
                                         <div class="form-group">
-                                            <label><strong>Konfirmasi Password</strong></label>
+                                            <label><strong>Confirm Password</strong></label>
                                             <input type="password" name="password2" class="form-control">
                                         </div>
                                         <div class="text-center">
@@ -68,7 +68,7 @@ if (isset($_POST["signup"])){
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Sudah punya akun? <a class="text-primary" href="./login.php">Silahkan Login</a></p>
+                                        <p>Already have an account? <a class="text-primary" href="./login.php">Login here</a></p>
                                     </div>
                                 </div>
                             </div>

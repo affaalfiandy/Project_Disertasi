@@ -23,6 +23,7 @@ if (isset($_POST["login"])){
         exit;
 
         }else{
+            echo "<script>alert('Wrong username or password');</script>";
             $error = true;
         }
             
@@ -72,7 +73,7 @@ if (isset($_POST["login"])){
                                         </div>
                                     </form>
                                     <div class="new-account mt-3">
-                                        <p>Belum punya akun? <a class="text-primary" href="./regist.php">Klik disini</a></p>
+                                        <p>don't have an account? <a class="text-primary" href="./regist.php">Sign up here</a></p>
                                     </div>
                                 </div>
                             </div>

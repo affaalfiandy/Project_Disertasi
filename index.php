@@ -27,7 +27,7 @@ $result = mysqli_query($conn, $sql);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>projek_1</title>
+    <title>UG TV MONITORING</title>
 
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
@@ -38,6 +38,14 @@ $result = mysqli_query($conn, $sql);
 
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @media only screen and (max-width: 800px){
+            .nv-head{
+               display: none; 
+            }
+        }
+    </style>
 
 
 </head>
@@ -70,7 +78,7 @@ $result = mysqli_query($conn, $sql);
         <div class="nav-header">
             <a href="index.html" class="brand-logo">
                 <i class="logo-abbr fas fa-desktop"></i>
-                <p class="brand-title" style="max-width: 350px; margin-bottom: 0;">UG TV Digital Monitoring</p>
+                <p class="brand-title" style="max-width: 350px; margin-bottom: 0;">UGTV - SIQM</p>
             </a>
 
             <div class="nav-control">
@@ -90,6 +98,8 @@ $result = mysqli_query($conn, $sql);
             <div class="header-content">
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
+                        
+                        <ul class="navbar-nav navbar-expand"><h3 class="my-1 nv-head">UG Digital TV Signal & Image Quality Monitoring</h3></ul>
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
@@ -101,7 +111,7 @@ $result = mysqli_query($conn, $sql);
                                     
                                 }?>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-account"></i>
+                                    <i class="fas fa-user ml-2"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                         <?php
@@ -144,8 +154,8 @@ $result = mysqli_query($conn, $sql);
 
                         <?php
                         if (isset($_SESSION["login"])){
-                            echo "<li><a href='#'><i class='fas fa-file-export'></i><span class='nav-text'> Export Data</span></a></li>
-                                  <li><a href='./minn/index.php'><i class='icon icon-single-04'></i><span class='nav-text'> Admin</span></a></li>";
+                            echo "<li><a href='#'><i class='fas fa-file-export'></i><span class='nav-text'>Export Data</span></a></li>
+                                  <li><a href='./minn/index.php'><i class='fas fa-user'></i><span class='nav-text'>Admin</span></a></li>";
                         }
                         ?>
 
@@ -168,6 +178,8 @@ $result = mysqli_query($conn, $sql);
         <div class="content-body" style="min-height: 630px;">
             <!-- row -->
             <div class="container-fluid">
+                <h5>Dashboard</h5>
+                <h3>Overview</h3>
 
                 <div class="row">
                     <div class="col-lg-9 col-md-9">
@@ -244,12 +256,12 @@ $result = mysqli_query($conn, $sql);
                 </div>
 
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-lg-4 col-md-4 col-12">
                         <div class="card" style="background-color: lightblue; height:120px;">
                             <div class="card-body">
                                 <h4 class="text-muted">IQA Score</h4>
                                 <div class="stat-digit text-dark text-center" style="font-size: 19px;">
-                                    <i class="fas fa-percent"></i> 
+                                    <!--<i class="fas fa-percent"></i> -->
                                     <span id="IQADigit" style="font-size: 30px; font-weight: 500;"></span >
                                 </div>
                                 <div class="progress">
@@ -258,7 +270,7 @@ $result = mysqli_query($conn, $sql);
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-lg-4 col-md-4 col-12">
                         <div class="card" style="background-color: lightgreen; height:120px;">
                             <div class="card-body">
                                 <h4 class="text-muted">SnR</h4>
@@ -271,7 +283,7 @@ $result = mysqli_query($conn, $sql);
                             </div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-lg-4 col-md-4 col-12">
                         <div class="card" style="background-color: lightsalmon; height:120px;">
                             <div class="card-body">
                                 <h4 class="text-muted">Signal Strength</h4>
@@ -288,7 +300,7 @@ $result = mysqli_query($conn, $sql);
 
                 <div class="row justify-content-lg-center">
 
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 col-md-12 col-12">
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
@@ -312,7 +324,7 @@ $result = mysqli_query($conn, $sql);
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-md-6 col-12">
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
@@ -336,7 +348,7 @@ $result = mysqli_query($conn, $sql);
                         </div>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-md-6 col-12">
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">

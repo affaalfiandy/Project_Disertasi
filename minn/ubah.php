@@ -49,7 +49,7 @@ if (mysqli_affected_rows($conn) > 0) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Halaman Admin</title>
+    <title>UGTVM Admin</title>
 
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
@@ -90,7 +90,7 @@ if (mysqli_affected_rows($conn) > 0) {
         <div class="nav-header">
             <a href="index.html" class="brand-logo">
                 <i class="logo-abbr fas fa-desktop"></i>
-                <p class="brand-title" style="max-width: 350px; margin-bottom: 0;">UG TV Digital Monitoring</p>
+                <p class="brand-title" style="max-width: 350px; margin-bottom: 0;">UGTV - SIQM</p>
             </a>
 
             <div class="nav-control">
@@ -116,7 +116,7 @@ if (mysqli_affected_rows($conn) > 0) {
                                 <h6 class="m-1 mr-4">Welcome, <?=$_SESSION["username"]?> </h6>
                                 <p style="font-size: 34px;" class="mt-2"> | </p>
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-account ml-2"></i>
+                                    <i class="fas fa-user ml-2"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="logout.php" class="dropdown-item">
@@ -145,10 +145,10 @@ if (mysqli_affected_rows($conn) > 0) {
                         <a href="../index.php"><i class="fas fa-globe"></i><span class="nav-text">Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="#"><i class="fas fa-file-export"></i><span class="nav-text"> Export Data</span></a>
+                        <a href="#"><i class="fas fa-file-export"></i><span class="nav-text">Export Data</span></a>
                     </li>
                     <li>
-                        <a href="./index.php" class="nav-text"><i class="icon icon-single-04"></i><span class="nav-text"> Admin</span></a>
+                        <a href="./index.php" class="nav-text"><i class="fas fa-user"></i><span class="nav-text">Admin</span></a>
                     </li>
                 </ul>
             </div>
