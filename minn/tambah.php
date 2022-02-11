@@ -14,9 +14,15 @@ $snrs = mysqli_real_escape_string($conn, $_POST['snrs']);
 $sss = mysqli_real_escape_string($conn, $_POST['sss']);
 $iqas = mysqli_real_escape_string($conn, $_POST['iqas']);
 $alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
+$tschannelid = mysqli_real_escape_string($conn, $_POST['tschannelid']);
+$alamat_transmitter = mysqli_real_escape_string($conn, $_POST['alamat_transmitter']);
+$device_long = mysqli_real_escape_string($conn, $_POST['device_long']);
+$device_lat = mysqli_real_escape_string($conn, $_POST['device_lat']);
+$dtvt_long = mysqli_real_escape_string($conn, $_POST['dtvt_long']);
+$dtvt_lat = mysqli_real_escape_string($conn, $_POST['dtvt_lat']);
 
-$sql = "INSERT INTO `dataum`(`id`, `nama_tempat`, `snrs`, `sss`, `iqas`, `alamat`) 
-        VALUES ('','$nama_tempat','$snrs','$sss','$iqas','$alamat')";
+$sql = "INSERT INTO `dataum`(`id`, `nama_tempat`, `snrs`, `sss`, `iqas`, `alamat`, `tschannelid`, `alamat_transmitter`, `device_long`, `device_lat`, `dtvt_long`, `dtvt_lat`) 
+        VALUES ('','$nama_tempat','$snrs','$sss','$iqas','$alamat','$tschannelid','$alamat_transmitter','$device_long','$device_lat','$dtvt_long','$dtvt_lat')";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_affected_rows($conn) > 0) {
@@ -77,7 +83,7 @@ if (mysqli_affected_rows($conn) > 0) {
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
+            <a href="../index.php" class="brand-logo">
                 <i class="logo-abbr fas fa-desktop"></i>
                 <p class="brand-title" style="max-width: 350px; margin-bottom: 0;">UGTV - SIQM</p>
             </a>
@@ -99,6 +105,8 @@ if (mysqli_affected_rows($conn) > 0) {
             <div class="header-content">
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
+
+                        <ul class="navbar-nav navbar-expand"><h3 class="my-1 nv-head">UG Digital TV Signal & Image Quality Monitoring</h3></ul>
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
@@ -156,7 +164,7 @@ if (mysqli_affected_rows($conn) > 0) {
 
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Form Tambah data</h4>
+                        <h4 class="card-title">Add Data</h4>
                         <h3><a href="./index.php">&times;</a></h3>
                     </div>
                     <div class="card-body text-dark">
@@ -170,22 +178,56 @@ if (mysqli_affected_rows($conn) > 0) {
                                     </div>
                                 </div>
                                 <div class="form-row">
+                                    <div class="form-group col-md-7">
+                                        <label>Device Location Name</label>
+                                        <input type="text" name="alamat" class="form-control" placeholder="..." autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-row">
                                     <div class="form-group col-md-3">
-                                        <label>SnR Score</label>
+                                        <label>Device Location Latitude</label>
+                                        <input type="text" name="device_lat" class="form-control" placeholder="..." autocomplete="off">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Device Location Longitude</label>
+                                        <input type="text" name="device_long" class="form-control" placeholder="..." autocomplete="off">
+                                    </div>                                    
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-7">
+                                        <label>TS Channel ID</label>
+                                        <input type="text" name="tschannelid" class="form-control" placeholder="..." autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label>IQA Score Filed Number</label>
+                                        <input type="text" name="iqas" class="form-control" placeholder="..." autocomplete="off">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>SnR Field Number</label>
                                         <input type="text" name="snrs" class="form-control" placeholder="..." autocomplete="off">
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label>Signal Strength Score</label>
+                                        <label>Signal Strength Field Number</label>
                                         <input type="text" name="sss" class="form-control" placeholder="..." autocomplete="off">
                                     </div>
-                                    <div class="form-group col-md-3">
-                                        <label>IQA Score</label>
-                                        <input type="text" name="iqas" class="form-control" placeholder="..." autocomplete="off">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-7">
+                                        <label>Digital TV Transmitter Location Name</label>
+                                        <input type="text" name="alamat_transmitter" class="form-control" placeholder="..." autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Location</label>
-                                    <textarea name="alamat" class="form-control" placeholder="Text Here..."></textarea>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label>Digital TV Transmitter Location Latitude</label>
+                                        <input type="text" name="dtvt_lat" class="form-control" placeholder="..." autocomplete="off">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Digital TV Transmitter Location Longitude</label>
+                                        <input type="text" name="dtvt_long" class="form-control" placeholder="..." autocomplete="off">
+                                    </div>
                                 </div>
                                 <button type="submit" name="tambah" class="btn btn-primary">Add</button>
                             </form>

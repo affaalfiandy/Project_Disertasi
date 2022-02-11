@@ -4,18 +4,42 @@ session_start();
 include_once "./dtbase.php";
 
 if (isset($_POST['loc'])){
-    $namatempat= $_POST['loc'];
+    $nama_tempat = $_POST['nama_tempat'];
     $snrs = $_POST['snrs'];
     $sss = $_POST['sss'];
     $iqas = $_POST['iqas'];
+    $location= $_POST['alamat'];
+    $tschannelid= $_POST['tschannelid'];
+    $alamat_transmitter= $_POST['alamat_transmitter'];
+    $device_lat= $_POST['device_lat'];
+    $device_long= $_POST['device_long'];
+    $dtvt_lat= $_POST['dtvt_lat'];
+    $dtvt_long= $_POST['dtvt_long'];
+    $zoom= zoom(distance($device_lat, $device_long, $dtvt_lat, $dtvt_long, "K"));
 }else {
-    $namatempat= "depok";
-    $snrs = "0";
-    $sss = "0";
-    $iqas = "0";
+    $nama_tempat = "";
+    $snrs = "";
+    $sss = "";
+    $iqas = "";
+    $location= "depok";
+    $tschannelid= ""; 
+    $alamat_transmitter= "";
+    $device_lat= "";
+    $device_long= "";
+    $dtvt_lat= "";
+    $dtvt_long= "";
+    $zoom= 14;
 }
 
-$sql = "SELECT * FROM dataum";
+if($device_lat == "" && $device_long == ""){
+    $c_lat= -6.370082146399079;
+    $c_long= 106.83961719605158;
+}else{
+    $c_lat= $_POST['device_lat'];
+    $c_long= $_POST['device_long'];   
+}
+
+$sql = "SELECT * FROM dataum ORDER BY `nama_tempat` ASC";
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -38,7 +62,15 @@ $result = mysqli_query($conn, $sql);
 
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <!-- Mapbox -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <style>
+    #map { height: 330px; margin-bottom: 30px;}
+    </style>
     
+    <!-- infile css -->
     <style>
         @media only screen and (max-width: 800px){
             .nv-head{
@@ -76,7 +108,7 @@ $result = mysqli_query($conn, $sql);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
+            <a href="index.php" class="brand-logo">
                 <i class="logo-abbr fas fa-desktop"></i>
                 <p class="brand-title" style="max-width: 350px; margin-bottom: 0;">UGTV - SIQM</p>
             </a>
@@ -159,10 +191,6 @@ $result = mysqli_query($conn, $sql);
                         }
                         ?>
 
-                        <!-- <li>
-                            <a href="javascript:void" class="nav-text"><i class="icon icon-single-04"></i> Dashboard</a>
-                        </li> -->
-
                 </ul>
             </div>
 
@@ -181,78 +209,84 @@ $result = mysqli_query($conn, $sql);
                 <h5>Dashboard</h5>
                 <h3>Overview</h3>
 
+                <!-- Mapbox -->
                 <div class="row">
                     <div class="col-lg-9 col-md-9">
-                        <div class="mapouter">
-                            <div class="gmap_canvas">
-                                <iframe style="width: 100%; height: 300px;" id="gmap_canvas"
-                                    src="https://maps.google.com/maps?q=
-                                        <?php
-                                        $arrk = explode(" ",$namatempat);
-                                        $i = 0;
-                                        while($i < count($arrk)-1){
-                                        echo $arrk[$i] . "%20";
-                                        $i++;
-                                        }
-                                        echo $arrk[count($arrk)-1];
-                                        ?>
-                                        &t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                                <a href="https://2piratebay.org"></a>
-                                <br>
-                                <style>
-                                    .mapouter {
-                                        position: relative;
-                                        text-align: right;
-                                        height: 350px;
-                                        width: 100%;
-                                    }
-                                </style>
-                                <a href="https://www.embedgooglemap.net">google map</a>
-                                <style>
-                                    .gmap_canvas {
-                                        overflow: hidden;
-                                        background: none !important;
-                                    }
-                                </style>
-                            </div>
+                        <div id="map" style="border-radius: 5px;">
+                        <i class="fa-solid fa-location-dot" style="color: darkblue; position:absolute; z-index: 1; margin: 5px;"></i>
+                            <p style="color: white; position:absolute; z-index: 1; margin: 2px 16px 0; font-size: 10px;">Digital TV Transmitter Location</p><br>
+                            <i class="fa-solid fa-location-dot" style="color: red; position:absolute; z-index: 1; margin: 5px;"></i>
+                            <p style="color: white; position:absolute; z-index: 1; margin: 2px 16px 0; font-size: 10px;">Device Location</p><br>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3">
 
 
 
-                    <div class="card">
+                        <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Select Location</h4>
                             </div>
-                            <div class="card-body px-0" style="height: 250px; overflow: scroll;">
-                                
+                            <div class="card-body px-0" style="height: 150px; overflow: scroll;">
+
 
                                 <?php
-                                        while($row = mysqli_fetch_assoc($result)) {
+                                while($row = mysqli_fetch_assoc($result)) {
                                 ?>
                                 <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-                                <input type="text" name="nama_tempat" value="<?= $row["nama_tempat"]?>" hidden>
-                                <input type="text" name="snrs" value="<?= $row["snrs"]?>" hidden>
-                                <input type="text" name="sss" value="<?= $row["sss"]?>" hidden>
-                                <input type="text" name="iqas" value="<?= $row["iqas"]?>" hidden>
-                                <div class="">
-                                <button class="btn-secondary btn btn-large text-left col-11 ml-2 mb-2" type="submit" name="loc"
-                                    value="<?= $row["alamat"]?>"><?= $row["nama_tempat"]?>
-                                </button>
-                                </div>
+                                    <input type="text" name="nama_tempat" value="<?= $row["nama_tempat"]?>" hidden>
+                                    <input type="text" name="snrs" value="<?= $row["snrs"]?>" hidden>
+                                    <input type="text" name="sss" value="<?= $row["sss"]?>" hidden>
+                                    <input type="text" name="iqas" value="<?= $row["iqas"]?>" hidden>
+                                    <input type="text" name="alamat" value="<?= $row["alamat"]?>" hidden>
+                                    <input type="text" name="tschannelid" value="<?= $row["tschannelid"]?>" hidden>
+                                    <input type="text" name="alamat_transmitter" value="<?= $row["alamat_transmitter"]?>" hidden>
+                                    <input type="text" name="device_long" value="<?= $row["device_long"]?>" hidden>
+                                    <input type="text" name="device_lat" value="<?= $row["device_lat"]?>" hidden>
+                                    <input type="text" name="dtvt_long" value="<?= $row["dtvt_long"]?>" hidden>
+                                    <input type="text" name="dtvt_lat" value="<?= $row["dtvt_lat"]?>" hidden>
+                                    <div class="">
+                                        <button class="btn-secondary btn btn-large text-left col-11 ml-2 mb-2"
+                                            type="submit" name="loc"><?= $row["nama_tempat"]?>
+                                        </button>
+                                    </div>
                                 </form>
                                 <?php
-                                    }
+                                }
                                 ?>
-                                
-                                
-
 
                             </div>
                         </div>
+                        <div class="card" style="background-color: lightskyblue; height:100px;">
+                            <div class="card-body">
+                                <h5 class="text-muted" style="font-weight: 500;">Distance to station</h5>
+                                <div class="stat-digit text-dark text-center">
+                                    <span style="font-size: 25px; font-weight: 500;">
+                                        <?php
+                                        $arr =explode('.',distance($device_lat, $device_long, $dtvt_lat, $dtvt_long, "K"));
+
+                                        if (count($arr) == 1){
+                                            echo "$arr[0]";
+
+                                            }else{
+                                              if ($arr[0] == 0){
+                                              $result_m1 =str_split($arr[1],3);
+                                              $result_m2 =str_split($result_m1[1],2);  
+                                              echo "$result_m1[0].$result_m2[0] "."m";
+
+                                              }else{
+                                              $resultkm =str_split($arr[1],2);
+                                              echo "$arr[0].$resultkm[0] "."km";
+
+                                              }
+                                            }
+
+                                        ?>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -260,8 +294,8 @@ $result = mysqli_query($conn, $sql);
                         <div class="card" style="background-color: lightblue; height:120px;">
                             <div class="card-body">
                                 <h4 class="text-muted">IQA Score</h4>
-                                <div class="stat-digit text-dark text-center" style="font-size: 19px;">
-                                    <!--<i class="fas fa-percent"></i> -->
+                                <div class="stat-digit text-dark text-center">
+                                    
                                     <span id="IQADigit" style="font-size: 30px; font-weight: 500;"></span >
                                 </div>
                                 <div class="progress">
@@ -274,12 +308,10 @@ $result = mysqli_query($conn, $sql);
                         <div class="card" style="background-color: lightgreen; height:120px;">
                             <div class="card-body">
                                 <h4 class="text-muted">SnR</h4>
-                                <div class="stat-digit text-dark text-center" style="font-size: 19px;">
+                                <div class="stat-digit text-dark text-center">
                                     <span id="SNRDigit" style="font-size: 30px; font-weight: 500;"></span><span style="font-size: 25px;"> dB</span>
                                 </div>
-                                <!-- <div class="progress" style="margin: 10px 20%;">
-                                    <div id="SNRBar"></div>
-                                </div> -->
+                               
                             </div>
                         </div>
                     </div>
@@ -287,12 +319,10 @@ $result = mysqli_query($conn, $sql);
                         <div class="card" style="background-color: lightsalmon; height:120px;">
                             <div class="card-body">
                                 <h4 class="text-muted">Signal Strength</h4>
-                                <div class="stat-digit text-dark text-center" style="font-size: 19px;"> 
+                                <div class="stat-digit text-dark text-center"> 
                                     <span id="SSSDigit" style="font-size: 30px; font-weight: 500;"></span><span style="font-size: 25px;"> dBm</span>
                                 </div>
-                                <!-- <div class="progress" style="margin: 10px 20%;">
-                                    <div id="SSSBar" role="progressbar"></div>
-                                </div> -->
+                                
                             </div>
                         </div>
                     </div>
@@ -300,23 +330,18 @@ $result = mysqli_query($conn, $sql);
 
                 <div class="row justify-content-lg-center">
 
-                    <div class="col-lg-12 col-md-12 col-12">
+                    <div class="col-lg-4 col-md-4 col-12">
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
-                                    <div class="stat-content">
-                                        <div class="stat-text">Image Quality Assesment (IQA) Score</div>
-                                    </div>
+            
                                     <div class="row my-0 py-0">
-                                        <div class=" p-0 mx-0"
-                                            style="position:absolute; top:45%; transform: rotate(-90deg);">
-                                            <span style="font-size: 12px; color:darkslategrey;">Score</span>
-                                        </div>
-                                        <div class="col-12 pl-4">
+                                        
+                                        <div class="col-12">
                                             <div class="cpu-load-chart">
-                                                <div id="cpu-load-3" class="cpu-load"></div>
+                                                <iframe width="100%" height="260" style="border: 1px solid transparent;" src="https://thingspeak.com/channels/1078947/charts/4?bgcolor=%23ffffff&color=%230e416e&width=460&dynamic=true&results=50&title=Image+Quality+Score&type=line&xaxis=Time&yaxis=Score&type=line&update=15&width=auto&height=auto"></iframe>
                                             </div>
-                                            <span style="font-size: 12px; color:darkslategrey;">Time</span>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -324,23 +349,18 @@ $result = mysqli_query($conn, $sql);
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-12">
+                    <div class="col-lg-4 col-md-4 col-12">
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
-                                    <div class="stat-content">
-                                        <div class="stat-text">Signal to Noise Ratio (SnR) Score</div>
-                                    </div>
+                                    
                                     <div class="row my-0 py-0">
-                                        <div class=" p-0 mx-0"
-                                            style="position:absolute; top:45%; transform: rotate(-90deg);">
-                                            <span style="font-size: 12px; color:darkslategrey;">dB</span>
-                                        </div>
-                                        <div class="col-12 pl-4">
+                                        
+                                        <div class="col-12">
                                             <div class="cpu-load-chart">
-                                                <div id="cpu-load-1" class="cpu-load"></div>
+                                                <iframe width="100%" height="260" style="border: 1px solid transparent;" src="https://thingspeak.com/channels/1078947/charts/1?bgcolor=%23ffffff&color=%23186b38&dynamic=true&results=50&title=Signal+to+Noise+Ratio&type=line&xaxis=Time&yaxis=dBm&width=auto&height=auto"></iframe>
                                             </div>
-                                            <span style="font-size: 12px; color:darkslategrey;">Time</span>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -348,23 +368,18 @@ $result = mysqli_query($conn, $sql);
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 col-12">
+                    <div class="col-lg-4 col-md-4 col-12">
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
-                                    <div class="stat-content">
-                                        <div class="stat-text">Signal Strength</div>
-                                    </div>
+                                    
                                     <div class="row my-0 py-0">
-                                        <div class=" p-0 mx-0"
-                                            style="position:absolute; top:45%; transform: rotate(-90deg);">
-                                            <span style="font-size: 12px; color:darkslategrey;">dBm</span>
-                                        </div>
-                                        <div class="col-12 pl-4">
+                                        
+                                        <div class="col-12">
                                             <div class="cpu-load-chart">
-                                                <div id="cpu-load-2" class="cpu-load"></div>
+                                                <iframe width="100%" height="260" style="border: 1px solid transparent;" src="https://thingspeak.com/channels/1078947/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=50&title=Signal+Strength&type=line&xaxis=Time&yaxis=dB&width=auto&height=auto"></iframe>
                                             </div>
-                                            <span style="font-size: 12px; color:darkslategrey;">Time</span>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -411,6 +426,74 @@ $result = mysqli_query($conn, $sql);
         Scripts
     ***********************************-->
 
+    <!-- Mapbox -->
+    <script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoidWd0dnNpcW0wMDEiLCJhIjoiY2t6aWIwbnJ6MDY5dzJvbnh5NDl1cmZnaSJ9.-CKcIQOA6Up3zaeg6LZ87Q';
+    // A GeoJSON object with a LineString route from the White House to Capitol Hill
+    const geojson = {
+        'type': 'FeatureCollection',
+        'features': [
+            {
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'LineString',
+                    'properties': {},
+                    'coordinates': [
+                        [<?= $device_long .','. $device_lat?>],
+                        [<?= $dtvt_long .','. $dtvt_lat?>]
+                    ]
+                }
+            }
+        ]
+    };
+
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/satellite-v9',
+        center: [<?= $c_long .','. $c_lat?>],
+        zoom: <?=$zoom?>
+    });
+
+    const marker1 = new mapboxgl.Marker({color: "red"})
+    .setLngLat([<?= $device_long .','. $device_lat?>])
+    .addTo(map); // add the marker to the map
+
+    const marker2 = new mapboxgl.Marker({color: "darkblue"})
+    .setLngLat([<?= $dtvt_long .','. $dtvt_lat?>])
+    .addTo(map); // add the marker to the map
+
+    const scale = new mapboxgl.ScaleControl({
+    maxWidth: 80,
+    unit: 'imperial'
+    });
+    map.addControl(scale);
+    
+    scale.setUnit('metric');
+
+    map.on('load', () => {
+        map.addSource('LineString', {
+            'type': 'geojson',
+            'data': geojson
+        });
+        map.addLayer({
+            'id': 'LineString',
+            'type': 'line',
+            'source': 'LineString',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': 'rgba(100, 100, 255, 0.5)',
+                'line-width': 5
+            }
+        });
+
+        
+    });
+    </script>
+
+
     <!-- Required vendors -->
     <script src="./vendor/global/global.min.js"></script>
     <script src="./js/quixnav-init.js"></script>
@@ -427,10 +510,6 @@ $result = mysqli_query($conn, $sql);
 
     <script src="./vendor/gaugeJS/dist/gauge.min.js"></script>
 
-    <!--  flot-chart js -->
-    <script src="./vendor/flot/jquery.flot.js"></script>
-    <script src="./vendor/flot/jquery.flot.resize.js"></script>
-
     <!-- Owl Carousel -->
     <script src="./vendor/owl-carousel/js/owl.carousel.min.js"></script>
 
@@ -440,241 +519,6 @@ $result = mysqli_query($conn, $sql);
     <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
 
     <script src="index.js"></script>
-
-    <script>
-    (function($) {
-    "use strict";
-
-    var data1 = [],
-        totalPoints = 300;
-    var data2 = [],
-        totalPoints = 300;
-    var data3 = [],
-        totalPoints = 300;
-
-    function getRandomData1(valIN) {
-        if (data1.length > 0)
-            data1 = data1.slice(1);
-
-        // Do a random walk
-
-        while (data1.length < totalPoints) {
-
-            var prev = data1.length > 0 ? data1[data1.length - 1] : 50,
-                y = prev + Math.random() * 10 - 5;
-
-            if (y < 0) {
-                y = 0;
-            } else if (y > 100) {
-                y = 100;
-            }
-
-            data1.push(valIN);
-        }
-
-        // Zip the generated y values with the x values
-
-        var res = [];
-        for (var i = 0; i < data1.length; ++i) {
-            res.push([i, data1[i]])
-        }
-
-        return res;
-    }
-
-    function getRandomData2(valIN) {
-        if (data2.length > 0)
-            data2 = data2.slice(1);
-
-        // Do a random walk
-
-        while (data2.length < totalPoints) {
-
-            var prev = data2.length > 0 ? data2[data2.length - 1] : 50,
-                y = prev + Math.random() * 10 - 5;
-
-            if (y < 0) {
-                y = 0;
-            } else if (y > 100) {
-                y = 100;
-            }
-
-            data2.push(valIN);
-        }
-
-        // Zip the generated y values with the x values
-
-        var res = [];
-        for (var i = 0; i < data2.length; ++i) {
-            res.push([i, data2[i]])
-        }
-
-        return res;
-    }
-
-    function getRandomData3(valIN) {
-        if (data3.length > 0)
-            data3 = data3.slice(1);
-
-        // Do a random walk
-
-        while (data3.length < totalPoints) {
-
-            var prev = data3.length > 0 ? data3[data3.length - 1] : 50,
-                y = prev + Math.random() * 10 - 5;
-
-            if (y < 0) {
-                y = 0;
-            } else if (y > 100) {
-                y = 100;
-            }
-
-            data3.push(valIN);
-        }
-
-        // Zip the generated y values with the x values
-
-        var res = [];
-        for (var i = 0; i < data3.length; ++i) {
-            res.push([i, data3[i]])
-        }
-
-        return res;
-    }
-
-    // Set up the control widget
-
-    var updateInterval = 100;
-    $("#updateInterval").val(updateInterval).change(function() {
-        var v = $(this).val();
-        if (v && !isNaN(+v)) {
-            updateInterval = +v;
-            if (updateInterval < 1) {
-                updateInterval = 1;
-            } else if (updateInterval > 3000) {
-                updateInterval = 3000;
-            }
-            $(this).val("" + updateInterval);
-        }
-    });
-
-    var options = {
-
-};
-
-    //graph SNRS
-
-    var plot1 = $.plot("#cpu-load-1", [getRandomData1()], {
-        label: "foo",
-        series: {
-            shadowSize: 0 // Drawing is faster without shadows
-        },
-        yaxis: {
-            min: 0,
-            max: 40
-        },
-        xaxis: {
-            show: false
-        },
-        colors: ["#007BFF"],
-        grid: {
-            borderColor: {right: "transparent", left:"grey", bottom:"grey", top:"grey"},
-            color: "grey",
-            hoverable: true,
-            borderWidth: 0.5,
-            backgroundColor: 'transparent'
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "Y: %y",
-            defaultTheme: false
-        }
-    });
-    function update1() {
-        const data1up = Number(document.getElementById("SNRDigit").innerHTML)
-        plot1.setData([getRandomData1(data1up)]);
-        // Since the axes don't change, we don't need to call plot.setupGrid()
-        plot1.draw();
-        setTimeout(update1, updateInterval);
-    }
-    update1();
-
-    // graph SSS
-
-    var plot2 = $.plot("#cpu-load-2", [getRandomData2()], {
-        series: {
-            shadowSize: 0 // Drawing is faster without shadows
-        },
-        yaxis: {
-            min: -100,
-            max: 0
-        },
-        xaxis: {
-            show: false
-        },
-        colors: ["#007BFF"],
-        grid: {
-            borderColor: {right: "transparent", left:"grey", bottom:"grey", top:"grey"},
-            color: "grey",
-            hoverable: true,
-            borderWidth: 0.5,
-            backgroundColor: 'transparent'
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "Y: %y",
-            defaultTheme: false
-        }
-    });
-    function update2() {
-        const data2up = Number(document.getElementById("SSSDigit").innerHTML)
-        plot2.setData([getRandomData2(data2up)]);
-        // Since the axes don't change, we don't need to call plot.setupGrid()
-        plot2.draw();
-        setTimeout(update2, updateInterval);
-    }
-    update2();
-
-    //graph IQAS
-
-    var plot3 = $.plot("#cpu-load-3", [getRandomData3()], {
-        series: {
-            shadowSize: 0 // Drawing is faster without shadows
-        },
-        yaxis: {
-            min: 0,
-            max: 100
-        },
-        xaxis: {
-            show: false
-        },
-        colors: ["#007BFF"],
-        grid: {
-            borderColor: {right: "transparent", left:"grey", bottom:"grey", top:"grey"},
-            color: "grey",
-            hoverable: true,
-            borderWidth: 0.5,
-            backgroundColor: 'transparent'
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "Y: %y",
-            defaultTheme: false
-        }
-    });
-    function update3() {
-        const data3up = Number(document.getElementById("IQADigit").innerHTML)
-        plot3.setData([getRandomData3(data3up)]);
-        // Since the axes don't change, we don't need to call plot.setupGrid()
-        plot3.draw();
-        setTimeout(update3, updateInterval);
-    }
-    update3();
-    
-})(jQuery);
-const wt = new PerfectScrollbar('.widget-todo');
-const wtl = new PerfectScrollbar('.widget-timeline');
-</script>
 
 </body>
 

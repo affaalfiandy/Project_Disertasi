@@ -57,7 +57,7 @@ $result = mysqli_query($conn, $sql);
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
+            <a href="../index.php" class="brand-logo">
                 <i class="logo-abbr fas fa-desktop"></i>
                 <p class="brand-title" style="max-width: 350px; margin-bottom: 0;">UGTV - SIQM</p>
             </a>
@@ -79,6 +79,8 @@ $result = mysqli_query($conn, $sql);
             <div class="header-content">
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
+
+                        <ul class="navbar-nav navbar-expand"><h3 class="my-1 nv-head">UG Digital TV Signal & Image Quality Monitoring</h3></ul>
 
                         <ul class="navbar-nav header-right ml-auto">
                             <li class="nav-item dropdown header-profile">
@@ -158,7 +160,9 @@ $result = mysqli_query($conn, $sql);
                                         <thead>
                                             <tr>
                                                 <th>Place Name</th>
-                                                <th>Location</th>
+                                                <th>Device Location</th>
+                                                <th>TS Channel ID</th>
+                                                <th>Digital TV Transmitter Location</th>
                                                 <th>Action</th>
                                                 <th>SnR Score</th>
                                                 <th>Signal Strength</th>
@@ -173,6 +177,8 @@ $result = mysqli_query($conn, $sql);
                                             <tr class="text-dark">
                                                 <td style="min-width: 80px;"><?= $row['nama_tempat']?></td>
                                                 <td><?= $row['alamat']?></td>
+                                                <td style="min-width: 100px;"><?= $row['tschannelid']?></td>
+                                                <td><?= $row['alamat_transmitter']?></td>
                                                 <td style="min-width: 100px;">
                                                     <a href="./ubah.php?id=<?= $row['id']?>" style="color: blue;">Edit</a> | 
                                                     <a href="./hapus.php?id=<?= $row['id']?>" style="color: blue;" onclick="return confirm('Are you sure want to delete <?=$row['nama_tempat']?>?');">Delete</a>
