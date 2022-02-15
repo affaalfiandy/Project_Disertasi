@@ -16,8 +16,10 @@ if (isset($_POST['loc'])){
     $dtvt_lat= $_POST['dtvt_lat'];
     $dtvt_long= $_POST['dtvt_long'];
     $zoom= zoom(distance($device_lat, $device_long, $dtvt_lat, $dtvt_long, "K"));
+    if ($tschannelid =="" || $snrs =="" || $sss =="" || $iqas ==""){$zero = 0;}else{$zero = "";}
+    
 }else {
-    $nama_tempat = "";
+    $nama_tempat = "no_location";
     $snrs = "";
     $sss = "";
     $iqas = "";
@@ -29,6 +31,7 @@ if (isset($_POST['loc'])){
     $dtvt_lat= "";
     $dtvt_long= "";
     $zoom= 14;
+    $zero= 0;
 }
 
 if($device_lat == "" && $device_long == ""){
@@ -214,9 +217,9 @@ $result = mysqli_query($conn, $sql);
                     <div class="col-lg-9 col-md-9">
                         <div id="map" style="border-radius: 5px;">
                         <i class="fa-solid fa-location-dot" style="color: darkblue; position:absolute; z-index: 1; margin: 5px;"></i>
-                            <p style="color: white; position:absolute; z-index: 1; margin: 2px 16px 0; font-size: 10px;">Digital TV Transmitter Location</p><br>
+                            <p style="color: black; position:absolute; z-index: 1; margin: 2px 16px 0; font-size: 10px;">Digital TV Transmitter Location</p><br>
                             <i class="fa-solid fa-location-dot" style="color: red; position:absolute; z-index: 1; margin: 5px;"></i>
-                            <p style="color: white; position:absolute; z-index: 1; margin: 2px 16px 0; font-size: 10px;">Device Location</p><br>
+                            <p style="color: black; position:absolute; z-index: 1; margin: 2px 16px 0; font-size: 10px;">Device Location</p><br>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3">
@@ -289,6 +292,8 @@ $result = mysqli_query($conn, $sql);
                     </div>
                 </div>
 
+                <!-- Score Number -->
+
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="card" style="background-color: lightblue; height:120px;">
@@ -296,7 +301,7 @@ $result = mysqli_query($conn, $sql);
                                 <h4 class="text-muted">IQA Score</h4>
                                 <div class="stat-digit text-dark text-center">
                                     
-                                    <span id="IQADigit" style="font-size: 30px; font-weight: 500;"></span >
+                                    <span id="IQADigit" style="font-size: 30px; font-weight: 500;"><?=$zero?></span >
                                 </div>
                                 <div class="progress">
                                     <div id="IQABar"></div>
@@ -309,7 +314,7 @@ $result = mysqli_query($conn, $sql);
                             <div class="card-body">
                                 <h4 class="text-muted">SnR</h4>
                                 <div class="stat-digit text-dark text-center">
-                                    <span id="SNRDigit" style="font-size: 30px; font-weight: 500;"></span><span style="font-size: 25px;"> dB</span>
+                                    <span id="SNRDigit" style="font-size: 30px; font-weight: 500;"><?=$zero?></span><span style="font-size: 25px;"> dB</span>
                                 </div>
                                
                             </div>
@@ -320,7 +325,7 @@ $result = mysqli_query($conn, $sql);
                             <div class="card-body">
                                 <h4 class="text-muted">Signal Strength</h4>
                                 <div class="stat-digit text-dark text-center"> 
-                                    <span id="SSSDigit" style="font-size: 30px; font-weight: 500;"></span><span style="font-size: 25px;"> dBm</span>
+                                    <span id="SSSDigit" style="font-size: 30px; font-weight: 500;"><?=$zero?></span><span style="font-size: 25px;"> dBm</span>
                                 </div>
                                 
                             </div>
@@ -328,20 +333,23 @@ $result = mysqli_query($conn, $sql);
                     </div>
                 </div>
 
-                <div class="row justify-content-lg-center">
+                <!-- Graph -->
+
+                <div class="row justify-content-lg-center" <?php if($zero === 0){echo "style='display: none;'";}else{echo "style='display: ;'";}?>>
 
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
-            
+
                                     <div class="row my-0 py-0">
-                                        
+
                                         <div class="col-12">
                                             <div class="cpu-load-chart">
-                                                <iframe width="100%" height="260" style="border: 1px solid transparent;" src="https://thingspeak.com/channels/1078947/charts/4?bgcolor=%23ffffff&color=%230e416e&width=460&dynamic=true&results=50&title=Image+Quality+Score&type=line&xaxis=Time&yaxis=Score&type=line&update=15&width=auto&height=auto"></iframe>
+                                                <iframe width="100%" height="260" style="border: 1px solid transparent;"
+                                                    src="https://thingspeak.com/channels/<?=$tschannelid?>/charts/<?=$iqas?>?bgcolor=%23ffffff&color=%230e416e&width=460&dynamic=true&results=50&title=Image+Quality+Score&type=line&xaxis=Time&yaxis=Score&type=line&update=15&width=auto&height=auto"></iframe>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -353,14 +361,15 @@ $result = mysqli_query($conn, $sql);
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
-                                    
+
                                     <div class="row my-0 py-0">
-                                        
+
                                         <div class="col-12">
                                             <div class="cpu-load-chart">
-                                                <iframe width="100%" height="260" style="border: 1px solid transparent;" src="https://thingspeak.com/channels/1078947/charts/1?bgcolor=%23ffffff&color=%23186b38&dynamic=true&results=50&title=Signal+to+Noise+Ratio&type=line&xaxis=Time&yaxis=dBm&width=auto&height=auto"></iframe>
+                                                <iframe width="100%" height="260" style="border: 1px solid transparent;"
+                                                    src="https://thingspeak.com/channels/<?=$tschannelid?>/charts/<?=$snrs?>?bgcolor=%23ffffff&color=%23186b38&dynamic=true&results=50&title=Signal+to+Noise+Ratio&type=line&xaxis=Time&yaxis=dBm&width=auto&height=auto"></iframe>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -372,14 +381,15 @@ $result = mysqli_query($conn, $sql);
                         <div class="card">
                             <div class="stat-widget-two card-body">
                                 <div class="container mt-0">
-                                    
+
                                     <div class="row my-0 py-0">
-                                        
+
                                         <div class="col-12">
                                             <div class="cpu-load-chart">
-                                                <iframe width="100%" height="260" style="border: 1px solid transparent;" src="https://thingspeak.com/channels/1078947/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=50&title=Signal+Strength&type=line&xaxis=Time&yaxis=dB&width=auto&height=auto"></iframe>
+                                                <iframe width="100%" height="260" style="border: 1px solid transparent;"
+                                                    src="https://thingspeak.com/channels/<?=$tschannelid?>/charts/<?=$sss?>?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=50&title=Signal+Strength&type=line&xaxis=Time&yaxis=dB&width=auto&height=auto"></iframe>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -426,10 +436,95 @@ $result = mysqli_query($conn, $sql);
         Scripts
     ***********************************-->
 
+    <!-- Data thingspeak -->
+    <script>
+    //SNRSCORE
+    setInterval(function(){fetch('https://api.thingspeak.com/channels/<?=$tschannelid?>/fields/<?=$snrs?>.json?results=2')
+    .then((response) => { 
+        return response.json().then((data) => {
+            console.log(data.feeds[1].field<?=$snrs?>);
+            const SNR = data.feeds[1].field<?=$snrs?>;
+            document.getElementById('SNRDigit').innerHTML=SNR;       
+        })
+    });
+    }
+    ,100)
+
+
+    //Signal Strength 
+    setInterval(function(){fetch('https://api.thingspeak.com/channels/<?=$tschannelid?>/fields/<?=$sss?>.json?results=2')
+    .then((response) => { 
+        return response.json().then((data) => {
+            console.log(data.feeds[1].field<?=$sss?>);
+            const SSS = data.feeds[1].field<?=$sss?>;
+            document.getElementById('SSSDigit').innerHTML= SSS;        
+        })
+    });
+    }
+    ,100)
+
+
+    //IQAScore
+    setInterval(function(){fetch('https://api.thingspeak.com/channels/<?=$tschannelid?>/fields/<?=$iqas?>.json?results=2')
+    .then((response) => { 
+        return response.json().then((data) => {
+            console.log(data.feeds[1].field<?=$iqas?>);
+            const IQA = data.feeds[1].field<?=$iqas?>;
+            document.getElementById('IQADigit').innerHTML=IQA
+            if(IQA == 100){           
+                document.getElementById('IQABar').className='progress-bar progress-bar-primary w-100'
+            }else if(IQA < 100 && IQA >= 95){
+                document.getElementById('IQABar').className='progress-bar progress-bar-primary w-95'
+            }else if(IQA < 95 && IQA >= 90){
+                document.getElementById('IQABar').className='progress-bar progress-bar-primary w-90'
+            }else if(IQA < 90 && IQA >= 85){
+                document.getElementById('IQABar').className='progress-bar progress-bar-primary w-85'
+            }else if(IQA < 85 && IQA >= 80){
+                document.getElementById('IQABar').className='progress-bar progress-bar-info w-80'
+            }else if(IQA < 80 && IQA >= 75){
+                document.getElementById('IQABar').className='progress-bar progress-bar-info w-75'
+            }else if(IQA < 75 && IQA >= 70){
+                document.getElementById('IQABar').className='progress-bar progress-bar-info w-70'
+            }else if(IQA < 70 && IQA >= 65){
+                document.getElementById('IQABar').className='progress-bar progress-bar-info w-65'
+            }else if(IQA < 65 && IQA >= 60){
+                document.getElementById('IQABar').className='progress-bar progress-bar-success w-60'
+            }else if(IQA < 60 && IQA >= 55){
+                document.getElementById('IQABar').className='progress-bar progress-bar-success w-55'
+            }else if(IQA < 55 && IQA >= 50){
+                document.getElementById('IQABar').className='progress-bar progress-bar-success w-50'
+            }else if(IQA < 50 && IQA >= 45){
+                document.getElementById('IQABar').className='progress-bar progress-bar-success w-45'
+            }else if(IQA < 45 && IQA >= 40){
+                document.getElementById('IQABar').className='progress-bar progress-bar-warning w-40'
+            }else if(IQA < 40 && IQA >= 35){
+                document.getElementById('IQABar').className='progress-bar progress-bar-warning w-35'
+            }else if(IQA < 35 && IQA >= 30){
+                document.getElementById('IQABar').className='progress-bar progress-bar-warning w-30'
+            }else if(IQA < 30 && IQA >= 25){
+                document.getElementById('IQABar').className='progress-bar progress-bar-warning w-25'
+            }else if(IQA < 25 && IQA >= 20){
+                document.getElementById('IQABar').className='progress-bar progress-bar-danger w-20'
+            }else if(IQA < 20 && IQA >= 15){
+                document.getElementById('IQABar').className='progress-bar progress-bar-danger w-15'
+            }else if(IQA < 15 && IQA >= 10){
+                document.getElementById('IQABar').className='progress-bar progress-bar-danger w-10'
+            }else if(IQA < 10 && IQA >= 5){
+                document.getElementById('IQABar').className='progress-bar progress-bar-danger w-5'
+            }else{
+                document.getElementById('IQABar').className='progress-bar progress-bar-danger w-0'
+            }
+        })
+    });
+    }
+    ,100)
+    </script>
+
+
     <!-- Mapbox -->
     <script>
 	mapboxgl.accessToken = 'pk.eyJ1IjoidWd0dnNpcW0wMDEiLCJhIjoiY2t6aWIwbnJ6MDY5dzJvbnh5NDl1cmZnaSJ9.-CKcIQOA6Up3zaeg6LZ87Q';
-    // A GeoJSON object with a LineString route from the White House to Capitol Hill
+    // A GeoJSON object with a LineString route
     const geojson = {
         'type': 'FeatureCollection',
         'features': [
@@ -450,6 +545,7 @@ $result = mysqli_query($conn, $sql);
     const map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/satellite-v9',
+        // style: 'mapbox://styles/mapbox/streets-v11',
         center: [<?= $c_long .','. $c_lat?>],
         zoom: <?=$zoom?>
     });
@@ -517,9 +613,6 @@ $result = mysqli_query($conn, $sql);
     <script src="./vendor/jqvmap/js/jquery.vmap.min.js"></script>
     <script src="./vendor/jqvmap/js/jquery.vmap.usa.js"></script>
     <script src="./vendor/jquery.counterup/jquery.counterup.min.js"></script>
-
-    <script src="index.js"></script>
-
 </body>
 
 </html>

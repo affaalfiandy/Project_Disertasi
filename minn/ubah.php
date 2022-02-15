@@ -47,7 +47,8 @@ if (mysqli_affected_rows($conn) > 0) {
     location.href='index.php'</script>";
     exit;
 }else{
-    echo "<script>alert('Fail to change this data');</script>";
+    echo "<script>alert('Fail to change this data');
+    location.href='index.php'</script>";
     exit;
 }
 }

@@ -1,5 +1,11 @@
 <?php
+//--A--
+// $servername = "localhost";
+// $username = "iotx5897_petugas";
+// $password = "iotx5897_petugas";
+// $dbname = "iotx5897_teskesug";
 
+//--B--
 $servername = "localhost";
 $username = "root";
 $password = "";
